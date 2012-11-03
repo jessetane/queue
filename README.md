@@ -23,7 +23,7 @@ The module exports a class named ```Queue```. Pass async functions (ones that ac
 * ```run()``` force run the queue immediately  
 
 ## Events
-* ```"advance"``` fires after a job finishes  
+* ```"advance"``` fires after any job finishes  
 * ```"drain"``` fires when the queue finishes processing all its jobs  
 
 ## Usage
