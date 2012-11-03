@@ -11,12 +11,12 @@ var Queue = require("../queue");
 var results = [];
 var q = new Queue();
 
-// add an advance handler
+// advance handler
 q.on("advance", function () {
   console.log("The queue is about to advance");
 });
 
-// add a drain handler
+// drain handler
 q.on("drain", function () {
   console.log("All done:", results);
 });
