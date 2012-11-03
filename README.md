@@ -15,7 +15,7 @@ An async job queue with adjustable concurrency.
 The module exports a class named ```Queue```. It can be instantiated with ```new``` and its constructor takes no arguments. Pass async functions (ones that accept a callback) to an instance's ```push()``` method. Processing begins automatically via ```process.nextTick()```.
 
 ## Properties
-* ```concurrency``` maximum number of jobs that the queue should process concurrently. default = 1
+* ```concurrency``` maximum number of jobs that the queue should process concurrently - the default is 1
 
 ## Methods
 * ```push(job, cb)``` add a job (and optional callback) to the queue  
@@ -24,7 +24,7 @@ The module exports a class named ```Queue```. It can be instantiated with ```new
 
 ## Events
 * ```"advance"``` fires after a job finishes  
-* ```"drain"``` fires when the queue finishes processing all its jobs
+* ```"drain"``` fires when the queue finishes processing all its jobs  
 
 ## Usage
 ```javascript
