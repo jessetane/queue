@@ -23,8 +23,8 @@ The module exports a class named ```Queue```. It can be instantiated with ```new
 ```run()``` force run the queue immediately  
 
 ## Events
-```advance``` fires after a job finishes  
-```drain``` fires when the queue finishes processing all its jobs
+```"advance"``` fires after a job finishes  
+```"drain"``` fires when the queue finishes processing all its jobs
 
 ## Usage
 ```javascript
