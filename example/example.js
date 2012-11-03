@@ -20,6 +20,8 @@ q.on("drain", function () {
 q.push(function (cb) {
   results.push("one");
   cb();
+}, function (err, jobQueue) {
+  console.log("This is a job specific callback");
 });
 
 // add arrays of functions

@@ -22,9 +22,14 @@ Queue.prototype.push = function (job, cb) {
     });
   }
   if (job instanceof Array) {
-    job.forEach(function (j) { 
-      self.push(j);
-    });
+    for (var i in  job) {
+      var j = job[i];
+      var c = null;
+      if (cb instanceof Array) {
+        c = cb[i];
+      }
+      self.push(j, c);
+    }
   } else {
     this.jobs.push([job, cb]);
   }
