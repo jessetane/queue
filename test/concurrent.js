@@ -10,8 +10,7 @@ var assert = require("assert");
 var Queue = require("../queue");
 
 var answers = [];
-var q = new Queue();
-q.concurrency = 100;
+var q = new Queue(100);
 q.on("drain", function () {
   var solutions = ["one", "two", "three"];
   for (var i in answers) {

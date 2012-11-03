@@ -7,8 +7,8 @@
 var util = require("util");
 var EventEmitter = require("events").EventEmitter;
 
-function Queue () {
-  this.concurrency = 1;
+function Queue (concurrency) {
+  this.concurrency = concurrency || 1;
   this.active = [];
   this.jobs = [];
 }
