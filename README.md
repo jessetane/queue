@@ -9,10 +9,10 @@
 An async function queue with adjustable concurrency.
 
 ## Why
-[caolan/async](https://github.com/caolan/async#queue)'s queue expects you to use one worker and many data items. This one simply expects async functions, meaning your workers can be unique.
+[async](https://github.com/caolan/async#queue)'s queue expects you to use one worker and many data items. This one simply expects async functions, meaning your workers can be unique.
 
 ## How
-The module exports a single EventEmitter subclass called ```Queue```. It can be instantiated with ```new``` and its constructor takes no arguments. If the ```push()``` method is called when the queue has no jobs in it, processing will begin automatically on ```process.nextTick()```.
+The module exports a class named ```Queue```. It can be instantiated with ```new``` and its constructor takes no arguments. If the ```push()``` method is called while the queue is empty, processing will begin automatically via ```process.nextTick()```.
 
 ## Properties
 ```concurrency``` maximum number of jobs that the queue should process concurrently. default = 1
