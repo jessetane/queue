@@ -6,10 +6,10 @@
  \____\\____/\____\\____/\____\
 
 ```
-An async function queue with adjustable concurrency.
+An async job queue with adjustable concurrency.
 
 ## Why
-[async](https://github.com/caolan/async#queue)'s queue expects you to use one worker and many data items. This one simply expects async functions, meaning your workers can be unique.
+[async](https://github.com/caolan/async#queue)'s queue expects you to have one worker and many jobs. This queue simply expects a list of async functions, which is a bit easier for me to wrap my mind around.
 
 ## How
 The module exports a class named ```Queue```. It can be instantiated with ```new``` and its constructor takes no arguments. If the ```push()``` method is called while the queue is empty, processing will begin automatically via ```process.nextTick()```.
