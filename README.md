@@ -9,10 +9,10 @@
 An async job queue with adjustable concurrency.
 
 ## Why
-[async](https://github.com/caolan/async#queue)'s queue expects you to have one worker and many jobs. This queue simply expects a list of async functions, which is a bit easier for me to wrap my mind around.
+[async](https://github.com/caolan/async#queue)'s queue expects you to have one worker and many jobs. This queue simply expects a list of async functions, which is a bit more flexible.
 
 ## How
-The module exports a class named ```Queue```. It can be instantiated with ```new``` and its constructor takes no arguments. Pass async functions (ones that accept a callback) to an instance's ```push()``` method. Processing begins automatically via ```process.nextTick()```.
+The module exports a class named ```Queue```. Pass async functions (ones that accept a callback) to an instance's ```push()``` method. Processing begins automatically on ```process.nextTick()```.
 
 ## Properties
 * ```concurrency``` maximum number of jobs that the queue should process concurrently - the default is 1
