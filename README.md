@@ -26,6 +26,9 @@ The module exports a class named ```Queue```. Pass the desired concurrency to th
 * ```"advance"``` fires after any job finishes  
 * ```"drain"``` fires when the queue finishes processing all its jobs  
 
+## Install
+```npm install queue```
+
 ## Usage
 ```javascript
 var Queue = require("../queue");
