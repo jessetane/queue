@@ -14,6 +14,9 @@ An async job queue with adjustable concurrency.
 ## How
 The module exports a class named ```Queue```. Pass the desired concurrency to the constructor, or change it later via the ```concurrency``` property. Pass async functions (ones that accept a callback) to an instance's ```push()``` method. Processing begins automatically on ```process.nextTick()```.
 
+## Install
+```npm install queue```
+
 ## Properties
 * ```concurrency``` maximum number of jobs that the queue should process concurrently - the default is 1
 
@@ -25,9 +28,6 @@ The module exports a class named ```Queue```. Pass the desired concurrency to th
 ## Events
 * ```"advance"``` fires after any job finishes  
 * ```"drain"``` fires when the queue finishes processing all its jobs  
-
-## Install
-```npm install queue```
 
 ## Usage
 ```javascript
