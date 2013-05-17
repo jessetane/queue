@@ -4,38 +4,35 @@
  */
 
 
-var util = require("util");
-var EventEmitter = require("events").EventEmitter;
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 
-function Queue (concurrency) {
+function Queue(concurrency) {
   this.concurrency = concurrency || 1;
   this.active = [];
   this.jobs = [];
 }
 util.inherits(Queue, EventEmitter);
 
-Queue.prototype.push = function (job, cb) {
-  var self = this;
+Queue.prototype.push = function(job, cb) {
   if (this.jobs.length === 0) {
-    process.nextTick(function () {
-      self.run();
-    });
+    process.nextTick(this.run.bind(this));
   }
-  if (job instanceof Array) {
+  if (Array.isArray(job)) {
     for (var i in  job) {
       var j = job[i];
       var c = null;
-      if (cb instanceof Array) {
+      if (Array.isArray(cb)) {
         c = cb[i];
       }
-      self.push(j, c);
+      this.push(j, c);
     }
   } else {
     this.jobs.push([job, cb]);
   }
 }
 
-Queue.prototype.run = function () {
+Queue.prototype.run = function() {
   if (this.jobs.length > 0 && this.active.length < this.concurrency) {
     var job = this.jobs.shift();
     this.active.push(job);
@@ -43,12 +40,14 @@ Queue.prototype.run = function () {
     var self = this;
     var cb = job[1];
     job = job[0];
-    job(function (err) {
-      if (cb) cb(err, self);
-      self.emit("advance", err, self);
+    job(function(err) {
+      if (cb) {
+        cb(err, self);
+      }
+      self.emit('advance', err, self);
       if (self.jobs.length === 0 && self.active.length === 1) {
         self.active = [];
-        self.emit("drain", self);
+        self.emit('drain', self);
       } else {
         self.active.shift();
         self.run();
@@ -57,7 +56,7 @@ Queue.prototype.run = function () {
   }
 }
 
-Queue.prototype.empty = function (job) {
+Queue.prototype.empty = function(job) {
   this.jobs = [];
 }
 
