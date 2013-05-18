@@ -3,61 +3,62 @@
  *
  */
 
+module.exports = Queue;
 
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
-function Queue(concurrency) {
-  this.concurrency = concurrency || 1;
-  this.active = [];
-  this.jobs = [];
+function Queue(options) {
+  options = options || {};
+  this.concurrency = options.concurrency || 1;
+  this.timeout = options.timeout || 0;
+  this.pending = 0;
 }
-util.inherits(Queue, EventEmitter);
+util.inherits(Queue, Array);
+util._extend(Queue.prototype, EventEmitter.prototype);  // how to multiple inherit?
 
-Queue.prototype.push = function(job, cb) {
-  if (this.jobs.length === 0) {
-    process.nextTick(this.run.bind(this));
-  }
-  if (Array.isArray(job)) {
-    for (var i in  job) {
-      var j = job[i];
-      var c = null;
-      if (Array.isArray(cb)) {
-        c = cb[i];
-      }
-      this.push(j, c);
-    }
-  } else {
-    this.jobs.push([job, cb]);
-  }
-}
-
-Queue.prototype.run = function() {
-  if (this.jobs.length > 0 && this.active.length < this.concurrency) {
-    var job = this.jobs.shift();
-    this.active.push(job);
-    this.run();
+Queue.prototype.advance = function() {
+  if (this.length > 0 && this.pending < this.concurrency) {
+    this.pending++;
+    EventEmitter.prototype.emit.call(this, 'advance');
+    
+    var job = this.shift();
     var self = this;
-    var cb = job[1];
-    job = job[0];
-    job(function(err) {
-      if (cb) {
-        cb(err, self);
+    var once = true;
+    var timeoutId = null;
+    
+    var next = function() {
+      if (once) {
+        once = false;
+        self.pending--;
+        if (timeoutId !== null) {
+          clearTimeout(timeoutId);
+        }
+        if (self.pending === 0 && self.length === 0) {
+          EventEmitter.prototype.emit.call(self, 'drain');
+        } else {
+          self.advance();
+        }
       }
-      self.emit('advance', err, self);
-      if (self.jobs.length === 0 && self.active.length === 1) {
-        self.active = [];
-        self.emit('drain', self);
-      } else {
-        self.active.shift();
-        self.run();
-      }
-    });
+    }
+    
+    if (this.timeout) {
+      timeoutId = setTimeout(function() {
+        EventEmitter.prototype.emit.call(self, 'timeout', next, job);
+      }, this.timeout);
+    }
+    
+    job(next);
+    this.advance();
   }
 }
 
-Queue.prototype.empty = function(job) {
-  this.jobs = [];
-}
-
-module.exports = Queue;
+// wrap additive array methods so the queue will
+// advance automatically on process.nextTick
+var methods = [ 'push', 'unshift', 'splice' ];
+methods.forEach(function(method) {
+  Queue.prototype[method] = function() {
+    Array.prototype[method].apply(this, arguments);
+    process.nextTick(this.advance.bind(this));
+  }
+});
