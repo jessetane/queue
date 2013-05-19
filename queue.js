@@ -5,7 +5,6 @@
 
 module.exports = Queue;
 
-var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
 function Queue(options) {
@@ -13,16 +12,33 @@ function Queue(options) {
   this.concurrency = options.concurrency || 1;
   this.timeout = options.timeout || 0;
   this.pending = 0;
+  this.jobs = [];
 }
-util.inherits(Queue, Array);
-util._extend(Queue.prototype, EventEmitter.prototype);  // how to multiple inherit?
+Queue.prototype = new EventEmitter;
+
+Queue.prototype.__defineGetter__('length', function() {
+  return this.pending + this.jobs.length;
+});
+
+[ 'push', 'pop', 'shift', 'unshift', 'splice', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
+  Queue.prototype[method] = function() {
+    if (method === 'push' || 
+        method === 'unshift' || 
+        method === 'splice') {
+          
+      // additive Array methods should auto-advance the queue
+      process.nextTick(this.advance.bind(this));
+    }
+    return Array.prototype[method].apply(this.jobs, arguments);
+  }
+});
 
 Queue.prototype.advance = function() {
-  if (this.length > 0 && this.pending < this.concurrency) {
+  if (this.jobs.length > 0 && this.pending < this.concurrency) {
     this.pending++;
-    EventEmitter.prototype.emit.call(this, 'advance');
+    this.emit('advance');
     
-    var job = this.shift();
+    var job = this.jobs.shift();
     var self = this;
     var once = true;
     var timeoutId = null;
@@ -34,8 +50,8 @@ Queue.prototype.advance = function() {
         if (timeoutId !== null) {
           clearTimeout(timeoutId);
         }
-        if (self.pending === 0 && self.length === 0) {
-          EventEmitter.prototype.emit.call(self, 'drain');
+        if (self.pending === 0 && self.jobs.length === 0) {
+          self.emit('drain');
         } else {
           self.advance();
         }
@@ -44,7 +60,7 @@ Queue.prototype.advance = function() {
     
     if (this.timeout) {
       timeoutId = setTimeout(function() {
-        EventEmitter.prototype.emit.call(self, 'timeout', next, job);
+        self.emit('timeout', next, job);
       }, this.timeout);
     }
     
@@ -52,13 +68,3 @@ Queue.prototype.advance = function() {
     this.advance();
   }
 }
-
-// wrap additive array methods so the queue will
-// advance automatically on process.nextTick
-var methods = [ 'push', 'unshift', 'splice' ];
-methods.forEach(function(method) {
-  Queue.prototype[method] = function() {
-    Array.prototype[method].apply(this, arguments);
-    process.nextTick(this.advance.bind(this));
-  }
-});
