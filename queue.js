@@ -20,15 +20,17 @@ Queue.prototype.__defineGetter__('length', function() {
   return this.pending + this.jobs.length;
 });
 
-[ 'push', 'pop', 'shift', 'unshift', 'splice', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
+// expose selected array methods
+[ 'pop', 'shift', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
   Queue.prototype[method] = function() {
-    if (method === 'push' || 
-        method === 'unshift' || 
-        method === 'splice') {
-          
-      // additive Array methods should auto-advance the queue
-      process.nextTick(this.process.bind(this));
-    }
+    return Array.prototype[method].apply(this.jobs, arguments);
+  }
+});
+
+// additive Array methods should auto-advance the queue
+[ 'push', 'unshift', 'splice' ].forEach(function(method) {
+  Queue.prototype[method] = function() {
+    process.nextTick(this.process.bind(this));
     return Array.prototype[method].apply(this.jobs, arguments);
   }
 });

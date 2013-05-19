@@ -5,7 +5,6 @@
  *
  */
 
-
 var assert = require('assert');
 var Queue = require('../queue');
 
