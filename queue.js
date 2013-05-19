@@ -27,44 +27,44 @@ Queue.prototype.__defineGetter__('length', function() {
         method === 'splice') {
           
       // additive Array methods should auto-advance the queue
-      process.nextTick(this.advance.bind(this));
+      process.nextTick(this.process.bind(this));
     }
     return Array.prototype[method].apply(this.jobs, arguments);
   }
 });
 
-Queue.prototype.advance = function() {
+Queue.prototype.process = function() {
   if (this.jobs.length > 0 && this.pending < this.concurrency) {
     this.pending++;
-    this.emit('advance');
     
     var job = this.jobs.shift();
     var self = this;
     var once = true;
     var timeoutId = null;
+    var didTimeout = false;
     
     var next = function() {
       if (once) {
         once = false;
         self.pending--;
-        if (timeoutId !== null) {
-          clearTimeout(timeoutId);
-        }
+        if (timeoutId !== null) clearTimeout(timeoutId);
+        if (didTimeout === false) self.emit('processed', job);
         if (self.pending === 0 && self.jobs.length === 0) {
-          self.emit('drain');
+          self.emit('drain', self);
         } else {
-          self.advance();
+          self.process();
         }
       }
     }
     
     if (this.timeout) {
       timeoutId = setTimeout(function() {
-        self.emit('timeout', next, job);
+        didTimeout = true;
+        self.emit('timeout', job, next);
       }, this.timeout);
     }
     
     job(next);
-    this.advance();
+    this.process();
   }
 }

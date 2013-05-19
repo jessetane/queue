@@ -17,8 +17,8 @@ var q = new Queue({
 
 // listen for events
 
-q.on('advance', function() {
-  console.log('the queue is about to advance');
+q.on('processed', function() {
+  console.log('job finished processing');
 });
 
 q.on('drain', function() {
@@ -58,7 +58,7 @@ q.splice(2, 0, function(cb) {
 // use the timeout feature to deal with jobs that 
 // take too long or forget to execute a callback
 
-q.on('timeout', function(next, job) {
+q.on('timeout', function(job, next) {
   console.log('job timed out:', job.toString().replace(/\n/g, ''))
   next()
 })
