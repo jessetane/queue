@@ -6,6 +6,7 @@
 module.exports = Queue;
 
 var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 
 function Queue(options) {
   options = options || {};
@@ -14,7 +15,8 @@ function Queue(options) {
   this.pending = 0;
   this.jobs = [];
 }
-Queue.prototype = new EventEmitter;
+
+util.inherits(Queue, EventEmitter);
 
 Queue.prototype.__defineGetter__('length', function() {
   return this.pending + this.jobs.length;
@@ -62,7 +64,11 @@ Queue.prototype.process = function() {
     if (this.timeout) {
       timeoutId = setTimeout(function() {
         didTimeout = true;
-        self.emit('timeout', job, next);
+        if (self.listeners('timeout').length > 0) {
+          self.emit('timeout', job, next);
+        } else {
+          next();
+        }
       }, this.timeout);
     }
     
