@@ -9,20 +9,20 @@ var assert = require('assert');
 var Queue = require('../queue');
 
 var answers = [];
-var q = new Queue();
+var q = new Queue({ timeout: 100 });
 q.on('drain', function() {
-  var solutions = [ 'one', 'two', 'three' ];
+  var solutions = [ 'two', 'three' ];
+  assert(answers.length === solutions.length, "Answers '" + answers + "' don't match solutions '" + solutions + "'.");
+
   for (var i in answers) {
     var answer = answers[i];
     var solution = solutions[i];
     assert(answer === solution, "Answer '" + answer + "' doesn't match solution '" + solution + "'.");
   }
-  console.log('Synchronous works!  ✔');
+  console.log('Timeout works!  ✔');
 });
 
 q.push(function(cb) {
-  answers.push('one');
-  cb();
 });
 
 q.push(function(cb) {
