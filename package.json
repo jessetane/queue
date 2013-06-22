@@ -1,8 +1,7 @@
 {
   "name": "queue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An async job queue with adjustable concurrency",
-  "main": "queue.js",
   "author": "Jesse Tane <jesse.tane@gmail.com>",
   "repository": {
     "type": "git",

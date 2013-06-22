@@ -6,12 +6,14 @@
  */
 
 var assert = require('assert');
-var Queue = require('../queue');
+var Queue = require('..');
 
 var answers = [];
 var q = new Queue();
 q.on('drain', function() {
   var solutions = [ 'one', 'two', 'three' ];
+  assert(answers.length === solutions.length, "Answers '" + answers + "' don't match solutions '" + solutions + "'.");
+  
   for (var i in answers) {
     var answer = answers[i];
     var solution = solutions[i];
@@ -21,16 +23,16 @@ q.on('drain', function() {
 });
 
 q.push(function(cb) {
+  answers.push('three');
+  cb();
+});
+
+q.unshift(function(cb) {
   answers.push('one');
   cb();
 });
 
-q.push(function(cb) {
+q.splice(1, 0, function(cb) {
   answers.push('two');
-  cb();
-});
-
-q.push(function(cb) {
-  answers.push('three');
   cb();
 });

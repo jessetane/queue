@@ -6,7 +6,7 @@
  */
 
 var assert = require('assert');
-var Queue = require('../queue');
+var Queue = require('..');
 
 var answers = [];
 var q = new Queue({ concurrency: 100 });

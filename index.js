@@ -9,13 +9,13 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
 function Queue(options) {
+  EventEmitter.call(this);
   options = options || {};
   this.concurrency = options.concurrency || 1;
   this.timeout = options.timeout || 0;
   this.pending = 0;
   this.jobs = [];
 }
-
 util.inherits(Queue, EventEmitter);
 
 Queue.prototype.__defineGetter__('length', function() {
@@ -26,7 +26,7 @@ Queue.prototype.__defineGetter__('length', function() {
 [ 'pop', 'shift', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
   Queue.prototype[method] = function() {
     return Array.prototype[method].apply(this.jobs, arguments);
-  }
+  };
 });
 
 // additive Array methods should auto-advance the queue
@@ -34,7 +34,7 @@ Queue.prototype.__defineGetter__('length', function() {
   Queue.prototype[method] = function() {
     process.nextTick(this.process.bind(this));
     return Array.prototype[method].apply(this.jobs, arguments);
-  }
+  };
 });
 
 Queue.prototype.process = function() {
@@ -75,4 +75,4 @@ Queue.prototype.process = function() {
     job(next);
     this.process();
   }
-}
+};

@@ -5,7 +5,7 @@
  *
  */
 
-var Queue = require('../queue');
+var Queue = require('..');
 
 var q = new Queue({
   timeout: 100,
