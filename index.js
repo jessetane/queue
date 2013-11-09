@@ -18,9 +18,11 @@ function Queue(options) {
 }
 util.inherits(Queue, EventEmitter);
 
-Queue.prototype.__defineGetter__('length', function() {
+Object.defineProperty(Queue.prototype, 'length', { get: length });
+
+function length() {
   return this.pending + this.jobs.length;
-});
+}
 
 // expose selected array methods
 [ 'pop', 'shift', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
