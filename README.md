@@ -1,10 +1,9 @@
 ```
-  ____  _     _____ _     _____
- /  _ \/ \ /\/  __// \ /\/  __/
- | / \|| | |||  \  | | |||  \  
- | \_\|| \_/||  /_ | \_/||  /_ 
- \____\\____/\____\\____/\____\
-
+    ____ ___  _____  __  _____ 
+   / __ `/ / / / _ \/ / / / _ \
+  / /_/ / /_/ /  __/ /_/ /  __/
+  \__, /\__,_/\___/\__,_/\___/ 
+    /_/                        
 ```
 async job queue with adjustable concurrency
 
@@ -18,18 +17,18 @@ the module exports a class `Queue` that implements most of the `Array` api. pass
 
 ## api
 * `start()`  
-* `stop()`  
+* `end([err])` if you pass a `err` it will be available to 'end' event handlers when triggered
 
 inherited from `Array`:
-* `push()`  
-* `unshift()`  
-* `splice()`  
+* `push(element1, ..., elementN)`  
+* `unshift(element1, ..., elementN)`  
+* `splice(index , howMany[, element1[, ...[, elementN]]])`  
 * `pop()`  
 * `shift()`  
-* `slice()`  
+* `slice(begin[, end])`  
 * `reverse()`  
-* `indexOf()`  
-* `lastIndexOf()`  
+* `indexOf(searchElement[, fromIndex])`  
+* `lastIndexOf(searchElement[, fromIndex])`  
 
 ## properties
 * `concurrency` maximum number of jobs that the queue should process concurrently - the default is 1  
@@ -37,16 +36,16 @@ inherited from `Array`:
 * `length` jobs pending + jobs to process (readonly)
 
 ## events
-* `q.emit('didProcessJob', job)` when jobs finish  
-* `q.emit('timeout', job, continue)` when `q.timeout` milliseconds have elapsed and a job has not executed its callback  
-* `q.emit('error', err, job)` when a job passes an error to its callback  
-* `q.emit('end', q)` when a queue finishes processing all its jobs  
+* `q.emit('success', result, job)` after a job executes its callback  
+* `q.emit('error', err, job)` after a job passes an error to its callback  
+* `q.emit('timeout', continue, job)` after `q.timeout` milliseconds have elapsed and a job has not executed its callback  
+* `q.emit('end'[, err])` after all jobs have been processed
 
 ## download
 `npm install queue`  
 
-## test
-`node test`  
+## tests
+`node test`
 
 ## example
 `node example` runs this:
@@ -63,7 +62,7 @@ var results = [];
 
 // listen for events
 
-q.on('didProcessJob', function(job) {
+q.on('success', function(job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''));
 });
 
