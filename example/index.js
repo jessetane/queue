@@ -1,13 +1,6 @@
-#!/usr/bin/env node
+var queue = require('..');
 
-/*
- *  example.js
- *
- */
-
-var Queue = require('..');
-
-var q = new Queue({
+var q = queue({
   timeout: 100,
   concurrency: 100
 });
@@ -17,7 +10,7 @@ var results = [];
 
 // listen for events
 
-q.on('didProcessJob', function(job) {
+q.on('success', function(result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''));
 });
 
