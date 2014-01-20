@@ -1,44 +1,43 @@
-#!/usr/bin/env node
-
-/*
- *  concurrent.js
- *
- */
-
-var assert = require('assert');
+var tape = require('tape');
 var Queue = require('..');
 
-var answers = [];
-var q = new Queue({ concurrency: 100 });
-q.on('drain', function() {
-  var solutions = [ 'one', 'two', 'three' ];
-  assert(answers.length === solutions.length, "Answers '" + answers + "' don't match solutions '" + solutions + "'.");
+tape('concurrent', function(t) {
+  t.plan(4);
+  
+  var actual = [];
+  var q = new Queue({ concurrency: 100 });
+  
+  q.on('end', function() {
+    var expected = [ 'one', 'two', 'three' ];
+    t.equal(actual.length, expected.length);
 
-  for (var i in answers) {
-    var answer = answers[i];
-    var solution = solutions[i];
-    assert(answer === solution, "Answer '" + answer + "' doesn't match solution '" + solution + "'.");
-  }
-  console.log('Concurrent works!  ✔');
-});
+    for (var i in actual) {
+      var a = actual[i];
+      var e = expected[i];
+      t.equal(a, e);
+    }
+  });
 
-q.push(function(cb) {
-  setTimeout(function() {
-    answers.push('one');
-    cb();
-  }, 1);
-});
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('one');
+      cb();
+    }, 1);
+  });
 
-q.push(function(cb) {
-  setTimeout(function() {
-    answers.push('three');
-    cb();
-  }, 6);
-});
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('three');
+      cb();
+    }, 6);
+  });
 
-q.push(function(cb) {
-  setTimeout(function() {
-    answers.push('two');
-    cb();
-  }, 3);
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('two');
+      cb();
+    }, 3);
+  });
+
+  q.start();
 });

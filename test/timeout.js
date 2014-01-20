@@ -1,36 +1,36 @@
-#!/usr/bin/env node
-
-/*
- *  synchronous.js
- *
- */
-
-var assert = require('assert');
+var tape = require('tape');
 var Queue = require('..');
 
-var answers = [];
-var q = new Queue({ timeout: 100 });
-q.on('drain', function() {
-  var solutions = [ 'two', 'three' ];
-  assert(answers.length === solutions.length, "Answers '" + answers + "' don't match solutions '" + solutions + "'.");
+tape('timeout', function(t) {
+  t.plan(3);
 
-  for (var i in answers) {
-    var answer = answers[i];
-    var solution = solutions[i];
-    assert(answer === solution, "Answer '" + answer + "' doesn't match solution '" + solution + "'.");
-  }
-  console.log('Timeout works!  ✔');
-});
+  var actual = [];
+  var q = new Queue({ timeout: 100 });
+  
+  q.on('end', function() {
+    var expected = [ 'two', 'three' ];
+    t.equal(actual.length, expected.length);
 
-q.push(function(cb) {
-});
+    for (var i in actual) {
+      var a = actual[i];
+      var e = expected[i];
+      t.equal(a, e);
+    }
+  });
 
-q.push(function(cb) {
-  answers.push('two');
-  cb();
-});
+  q.push(function(cb) {
+    // forget to call cb
+  });
 
-q.push(function(cb) {
-  answers.push('three');
-  cb();
+  q.push(function(cb) {
+    actual.push('two');
+    cb();
+  });
+
+  q.push(function(cb) {
+    actual.push('three');
+    cb();
+  });
+
+  q.start();
 });
