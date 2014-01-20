@@ -17,11 +17,11 @@ var results = [];
 
 // listen for events
 
-q.on('processed', function(job) {
+q.on('didProcessJob', function(job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''));
 });
 
-q.on('drain', function() {
+q.on('end', function() {
   console.log('all done:', results);
 });
 
@@ -73,3 +73,5 @@ q.push(function(cb) {
 q.push(function(cb) {
   console.log('forgot to execute callback');
 });
+
+q.start();
