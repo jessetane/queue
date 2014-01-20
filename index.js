@@ -17,6 +17,9 @@ module.exports = Queue;
  *  constructor
  */
 function Queue(options) {
+  if (!(this instanceof Queue))
+    return new Queue(options);
+  
   EventEmitter.call(this);
   options = options || {};
   this.concurrency = options.concurrency || 1;

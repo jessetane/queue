@@ -1,11 +1,11 @@
 var tape = require('tape');
-var Queue = require('..');
+var queue = require('..');
 
 tape('concurrent', function(t) {
   t.plan(4);
   
   var actual = [];
-  var q = new Queue({ concurrency: 100 });
+  var q = queue({ concurrency: 100 });
   
   q.on('end', function() {
     var expected = [ 'one', 'two', 'three' ];

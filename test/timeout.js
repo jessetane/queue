@@ -1,11 +1,11 @@
 var tape = require('tape');
-var Queue = require('..');
+var queue = require('..');
 
 tape('timeout', function(t) {
   t.plan(3);
 
   var actual = [];
-  var q = new Queue({ timeout: 100 });
+  var q = queue({ timeout: 100 });
   
   q.on('end', function() {
     var expected = [ 'two', 'three' ];

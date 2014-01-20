@@ -48,11 +48,12 @@ inherited from `Array`:
 ## test
 `node test`  
 
-## usage
+## example
+`node example` runs this:
 ```javascript
-var Queue = require('queue');
+var queue = require('queue');
 
-var q = new Queue({
+var q = queue({
   timeout: 100,
   concurrency: 100
 });
