@@ -1,80 +1,138 @@
-/*
+/**
  *  queue.js
- *
  */
 
+/**
+ *  deps
+ */
+var inherits = require('inherits');
+var EventEmitter = require('events').EventEmitter;
+
+/**
+ *  export class
+ */
 module.exports = Queue;
 
-var EventEmitter = require('events').EventEmitter;
-var util = require('util');
-
+/**
+ *  constructor
+ */
 function Queue(options) {
   EventEmitter.call(this);
   options = options || {};
   this.concurrency = options.concurrency || 1;
   this.timeout = options.timeout || 0;
   this.pending = 0;
+  this.session = 0;
   this.jobs = [];
 }
-util.inherits(Queue, EventEmitter);
+inherits(Queue, EventEmitter);
 
-Object.defineProperty(Queue.prototype, 'length', { get: length });
+/**
+ *  expose selected array methods
+ */
+var arrayMethods = [
+  'push',
+  'unshift',
+  'splice',
+  'pop',
+  'shift',
+  'slice',
+  'reverse',
+  'indexOf',
+  'lastIndexOf'
+];
 
-function length() {
-  return this.pending + this.jobs.length;
+for (var method in arrayMethods) {
+  (function(method) {
+    Queue.prototype[method] = function() {
+      return Array.prototype[method].apply(this.jobs, arguments);
+    };
+  })(arrayMethods[method]);
 }
 
-// expose selected array methods
-[ 'pop', 'shift', 'slice', 'reverse', 'indexOf', 'lastIndexOf' ].forEach(function(method) {
-  Queue.prototype[method] = function() {
-    return Array.prototype[method].apply(this.jobs, arguments);
-  };
+/**
+ *  expose array.length
+ */
+Queue.prototype.__defineGetter__('length', function() {
+ return this.pending + this.jobs.length;
 });
 
-// additive Array methods should auto-advance the queue
-[ 'push', 'unshift', 'splice' ].forEach(function(method) {
-  Queue.prototype[method] = function() {
-    process.nextTick(this.process.bind(this));
-    return Array.prototype[method].apply(this.jobs, arguments);
-  };
-});
-
-Queue.prototype.process = function() {
-  if (this.jobs.length > 0 && this.pending < this.concurrency) {
-    this.pending++;
-    
-    var job = this.jobs.shift();
-    var self = this;
-    var once = true;
-    var timeoutId = null;
-    var didTimeout = false;
-    
-    var next = function() {
-      if (once) {
-        once = false;
-        self.pending--;
-        if (timeoutId !== null) clearTimeout(timeoutId);
-        if (didTimeout === false) self.emit('processed', job);
-        if (self.pending === 0 && self.jobs.length === 0) {
-          self.emit('drain', self);
-        } else {
-          self.process();
-        }
+/**
+ *  start processing the queue
+ */
+Queue.prototype.start = function() {
+  if (this.pending === this.concurrency) {
+    return;
+  }
+  
+  if (this.jobs.length === 0) {
+    if (this.pending === 0) {
+      done.call(this);
+    }
+    return;
+  }
+  
+  var job = this.jobs.shift();
+  var self = this;
+  var once = true;
+  var session = this.session;
+  var timeoutId = null;
+  var didTimeout = false;
+  
+  var next = function(err) {
+    if (once && self.session === session) {
+      once = false;
+      self.pending--;
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+      if (err) {
+        self.emit('error', err, job);
+      } else if (didTimeout === false) {
+        self.emit('didProcessJob', job);
+      }
+      if (self.pending === 0 && self.jobs.length === 0) {
+        done.call(self);
+      } else {
+        self.start();
       }
     }
-    
-    if (this.timeout) {
-      timeoutId = setTimeout(function() {
-        didTimeout = true;
-        if (self.listeners('timeout').length > 0) {
-          self.emit('timeout', job, next);
-        } else {
-          next();
-        }
-      }, this.timeout);
-    }
-    
-    job(next);
-    this.process();
+  };
+  
+  if (this.timeout) {
+    timeoutId = setTimeout(function() {
+      didTimeout = true;
+      if (self.listeners('timeout').length > 0) {
+        self.emit('timeout', job, next);
+      } else {
+        next();
+      }
+    }, this.timeout);
   }
+  
+  this.pending++;
+  job(next);
+  
+  if (this.jobs.length > 0) {
+    this.start();
+  }
+};
+
+/**
+ *  clear the queue including any running jobs
+ */
+Queue.prototype.stop = function() {
+  if (this.jobs.length || this.pending) {
+    this.jobs = [];
+    this.pending = 0;
+    this.session++;
+  }
+};
+
+/**
+ *  all done
+ */
+function done() {
+  this.emit('end', this);
+  this.session++;
 };
