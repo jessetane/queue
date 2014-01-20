@@ -1,6 +1,6 @@
 {
   "name": "queue",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "async job queue with adjustable concurrency",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
     "tape": "*"
   },
   "scripts":{
-    "test": "node test"
+    "test": "node test",
+    "example": "node example"
   },
   "testling" : {
     "files" : "test/index.js",
