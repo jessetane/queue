@@ -82,7 +82,7 @@ Queue.prototype.start = function() {
   var timeoutId = null;
   var didTimeout = false;
   
-  var next = function(err) {
+  var next = function(err, result) {
     if (once && self.session === session) {
       once = false;
       self.pending--;
@@ -92,7 +92,7 @@ Queue.prototype.start = function() {
       if (err) {
         self.emit('error', err, job);
       } else if (didTimeout === false) {
-        self.emit('didProcessJob', job);
+        self.emit('success', result, job);
       }
       if (self.pending === 0 && self.jobs.length === 0) {
         done.call(self);
@@ -124,18 +124,19 @@ Queue.prototype.start = function() {
 /**
  *  clear the queue including any running jobs
  */
-Queue.prototype.stop = function() {
+Queue.prototype.end = function(err) {
   if (this.jobs.length || this.pending) {
     this.jobs = [];
     this.pending = 0;
     this.session++;
+    done.call(this, err);
   }
 };
 
 /**
  *  all done
  */
-function done() {
-  this.emit('end', this);
+function done(err) {
+  this.emit('end', err);
   this.session++;
 };
