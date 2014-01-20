@@ -106,7 +106,7 @@ Queue.prototype.start = function() {
     timeoutId = setTimeout(function() {
       didTimeout = true;
       if (self.listeners('timeout').length > 0) {
-        self.emit('timeout', job, next);
+        self.emit('timeout', next, job);
       } else {
         next();
       }

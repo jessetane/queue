@@ -62,7 +62,7 @@ var results = [];
 
 // listen for events
 
-q.on('success', function(job) {
+q.on('success', function(result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''));
 });
 
@@ -103,7 +103,7 @@ q.splice(2, 0, function(cb) {
 // use the timeout feature to deal with jobs that 
 // take too long or forget to execute a callback
 
-q.on('timeout', function(job, next) {
+q.on('timeout', function(next, job) {
   console.log('job timed out:', job.toString().replace(/\n/g, ''));
   next();
 });
