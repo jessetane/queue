@@ -1,13 +1,30 @@
 {
   "name": "queue",
-  "version": "1.0.2",
-  "description": "An async job queue with adjustable concurrency",
-  "author": "Jesse Tane <jesse.tane@gmail.com>",
+  "version": "2.0.0",
+  "description": "async job queue with adjustable concurrency",
   "repository": {
     "type": "git",
     "url": "https://github.com/jessetane/queue.git"
   },
+  "dependencies": {
+    "inherits": "~2.0.0"
+  },
+  "devDependencies": {
+    "tape": "*"
+  },
   "scripts":{
-     "test":"node test/all.js"
-  }
+    "test": "node test"
+  },
+  "testling" : {
+    "files" : "test/index.js",
+    "browsers" : [
+      "ie/8..latest",
+      "ff/25..latest",
+      "chrome/25..latest",
+      "safari/5.1..latest",
+      "opera/12..latest"
+    ]
+  },
+  "author": "Jesse Tane <jesse.tane@gmail.com>",
+  "license": "WTFPL"
 }
