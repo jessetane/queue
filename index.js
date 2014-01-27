@@ -89,15 +89,19 @@ Queue.prototype.start = function() {
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
       }
+      
       if (err) {
         self.emit('error', err, job);
       } else if (didTimeout === false) {
         self.emit('success', result, job);
       }
-      if (self.pending === 0 && self.jobs.length === 0) {
-        done.call(self);
-      } else {
-        self.start();
+      
+      if (self.session === session) {
+        if (self.pending === 0 && self.jobs.length === 0) {
+          done.call(self);
+        } else {
+          self.start();
+        }
       }
     }
   };
