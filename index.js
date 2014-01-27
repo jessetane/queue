@@ -56,9 +56,9 @@ for (var method in arrayMethods) {
 /**
  *  expose array.length
  */
-Queue.prototype.__defineGetter__('length', function() {
- return this.pending + this.jobs.length;
-});
+Object.defineProperty(Queue.prototype, 'length', { get: function() {
+  return this.pending + this.jobs.length;
+}});
 
 /**
  *  start processing the queue
