@@ -17,7 +17,8 @@ the module exports a class `Queue` that implements most of the `Array` api. pass
 
 ## api
 * `start()`  
-* `end([err])` if you pass a `err` it will be available to 'end' event handlers when triggered
+* `stop()`  
+* `end([err])` stop and empty the queue immediately
 
 inherited from `Array`:
 * `push(element1, ..., elementN)`  
