@@ -46,13 +46,11 @@ var arrayMethods = [
   'lastIndexOf'
 ];
 
-for (var method in arrayMethods) {
-  (function(method) {
-    Queue.prototype[method] = function() {
-      return Array.prototype[method].apply(this.jobs, arguments);
-    };
-  })(arrayMethods[method]);
-}
+for (var method in arrayMethods) (function(method) {
+  Queue.prototype[method] = function() {
+    return Array.prototype[method].apply(this.jobs, arguments);
+  };
+})(arrayMethods[method]);
 
 /**
  *  expose array.length
