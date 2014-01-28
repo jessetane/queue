@@ -26,6 +26,7 @@ function Queue(options) {
   this.timeout = options.timeout || 0;
   this.pending = 0;
   this.session = 0;
+  this.running = false;
   this.jobs = [];
 }
 inherits(Queue, EventEmitter);
@@ -99,7 +100,7 @@ Queue.prototype.start = function() {
       if (self.session === session) {
         if (self.pending === 0 && self.jobs.length === 0) {
           done.call(self);
-        } else {
+        } else if (self.running) {
           self.start();
         }
       }
@@ -118,11 +119,19 @@ Queue.prototype.start = function() {
   }
   
   this.pending++;
+  this.running = true;
   job(next);
   
   if (this.jobs.length > 0) {
     this.start();
   }
+};
+
+/**
+ *  stop / pause
+ */
+Queue.prototype.stop = function() {
+  this.running = false;
 };
 
 /**
@@ -141,6 +150,7 @@ Queue.prototype.end = function(err) {
  *  all done
  */
 function done(err) {
-  this.emit('end', err);
   this.session++;
+  this.running = false;
+  this.emit('end', err);
 };
