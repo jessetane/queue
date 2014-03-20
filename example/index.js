@@ -1,4 +1,4 @@
-var queue = require('..');
+var queue = require('../');
 
 var q = queue({
   timeout: 100,

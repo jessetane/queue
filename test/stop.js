@@ -1,5 +1,5 @@
 var tape = require('tape');
-var queue = require('..');
+var queue = require('../');
 
 tape('stop', function(t) {
   t.plan(4);

@@ -10,10 +10,12 @@
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "tape": "*"
+    "tape": "*",
+    "browserify": "*"
   },
   "scripts":{
     "test": "node test",
+    "test-browser": "browserify test/index.js > test/bundle.js && { [ -x \"$(which open)\" ] && open test/index.html || xdg-open test/index.html; }",
     "example": "node example"
   },
   "testling" : {

@@ -1,5 +1,5 @@
 var tape = require('tape');
-var queue = require('..');
+var queue = require('../');
 
 tape('length', function(t) {
   t.plan(12);
