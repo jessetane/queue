@@ -20,7 +20,7 @@
     "files" : "test/index.js",
     "browsers" : [
       "ie/8..latest",
-      "ff/25..latest",
+      "ff/24..latest",
       "chrome/25..latest",
       "safari/5.1..latest",
       "opera/12..latest"
