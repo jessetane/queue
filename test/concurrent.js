@@ -22,21 +22,21 @@ tape('concurrent', function(t) {
     setTimeout(function() {
       actual.push('one');
       cb();
-    }, 1);
+    }, 10);
   });
 
   q.push(function(cb) {
     setTimeout(function() {
       actual.push('three');
       cb();
-    }, 6);
+    }, 30);
   });
 
   q.push(function(cb) {
     setTimeout(function() {
       actual.push('two');
       cb();
-    }, 3);
+    }, 20);
   });
 
   q.start();
