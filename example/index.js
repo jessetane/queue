@@ -1,23 +1,7 @@
 var queue = require('../');
 
-var q = queue({
-  timeout: 100,
-  concurrency: 100
-});
-
+var q = queue();
 var results = [];
-
-
-// listen for events
-
-q.on('success', function(result, job) {
-  console.log('job finished processing:', job.toString().replace(/\n/g, ''));
-});
-
-q.on('end', function() {
-  console.log('all done:', results);
-});
-
 
 // add jobs using the familiar Array API
 
@@ -47,9 +31,10 @@ q.splice(2, 0, function(cb) {
   cb();
 });
 
-
 // use the timeout feature to deal with jobs that 
 // take too long or forget to execute a callback
+
+q.timeout = 100;
 
 q.on('timeout', function(next, job) {
   console.log('job timed out:', job.toString().replace(/\n/g, ''));
@@ -67,4 +52,14 @@ q.push(function(cb) {
   console.log('forgot to execute callback');
 });
 
-q.start();
+// get notified when jobs complete
+
+q.on('success', function(result, job) {
+  console.log('job finished processing:', job.toString().replace(/\n/g, ''));
+});
+
+// begin processing, get notified on end / failure
+
+q.start(function(err) {
+  console.log('all done:', results);
+});
