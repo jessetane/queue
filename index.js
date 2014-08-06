@@ -62,8 +62,16 @@ Object.defineProperty(Queue.prototype, 'length', { get: function() {
 /**
  *  start processing the queue
  */
-Queue.prototype.start = function() {
+Queue.prototype.start = function(cb) {
+  if (cb) {
+    this.on('error', this.end.bind(this));
+    this.on('end', function(err) {
+      cb(err);
+    });
+  }
+
   if (this.pending === this.concurrency) {
+    if (cb) cb();
     return;
   }
   
