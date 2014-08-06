@@ -22,7 +22,7 @@ function Queue(options) {
   
   EventEmitter.call(this);
   options = options || {};
-  this.concurrency = options.concurrency || 1;
+  this.concurrency = options.concurrency || Infinity;
   this.timeout = options.timeout || 0;
   this.pending = 0;
   this.session = 0;
