@@ -2,6 +2,16 @@
   "name": "queue",
   "version": "3.0.3",
   "description": "asynchronous function queue with adjustable concurrency",
+  "keywords": [
+    "queue",
+    "async",
+    "asynchronous",
+    "synchronous",
+    "job",
+    "task",
+    "concurrency",
+    "concurrent"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jessetane/queue.git"
