@@ -1,21 +1,8 @@
-/**
- *  queue.js
- */
-
-/**
- *  deps
- */
 var inherits = require('inherits');
 var EventEmitter = require('events').EventEmitter;
 
-/**
- *  export class
- */
 module.exports = Queue;
 
-/**
- *  constructor
- */
 function Queue(options) {
   if (!(this instanceof Queue))
     return new Queue(options);
@@ -31,9 +18,6 @@ function Queue(options) {
 }
 inherits(Queue, EventEmitter);
 
-/**
- *  expose selected array methods
- */
 var arrayMethods = [
   'push',
   'unshift',
@@ -52,16 +36,10 @@ for (var method in arrayMethods) (function(method) {
   };
 })(arrayMethods[method]);
 
-/**
- *  expose array.length
- */
 Object.defineProperty(Queue.prototype, 'length', { get: function() {
   return this.pending + this.jobs.length;
 }});
 
-/**
- *  start processing the queue
- */
 Queue.prototype.start = function(cb) {
   if (cb) {
     this.on('error', this.end.bind(this));
@@ -133,16 +111,10 @@ Queue.prototype.start = function(cb) {
   }
 };
 
-/**
- *  stop / pause
- */
 Queue.prototype.stop = function() {
   this.running = false;
 };
 
-/**
- *  clear the queue including any running jobs
- */
 Queue.prototype.end = function(err) {
   if (this.jobs.length || this.pending) {
     this.jobs = [];
@@ -152,9 +124,6 @@ Queue.prototype.end = function(err) {
   }
 };
 
-/**
- *  all done
- */
 function done(err) {
   this.session++;
   this.running = false;
