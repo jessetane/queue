@@ -5,12 +5,12 @@
  \__, /\__,_/\___/\__,_/\___/ 
    /_/                        
 ```
-manage asynchronous operations.
+manage groups of asynchronous javascript functions.
 
 [![browser support](http://ci.testling.com/jessetane/queue.png)](http://ci.testling.com/jessetane/queue)
 
 ## why
-[async](https://github.com/caolan/async) is a big libray offering many approaches to dealing with asynchrony; `queue` offers a single, flexible abstraction with a familiar API.
+[async](https://github.com/caolan/async) is a big libray offering various approaches to dealing with asynchrony; `queue` is a tiny library offering a single, flexible abstraction.
 
 ## how
 this module exports a class `Queue` that implements most of the `Array` api. pass async functions (ones that accept a callback) to an instance's additive array methods. processing begins when you call `q.start()`
