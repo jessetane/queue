@@ -1,7 +1,7 @@
 {
   "name": "queue",
   "version": "3.0.3",
-  "description": "async job queue with adjustable concurrency",
+  "description": "asynchronous function queue with adjustable concurrency",
   "repository": {
     "type": "git",
     "url": "https://github.com/jessetane/queue.git"
