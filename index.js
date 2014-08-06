@@ -128,4 +128,4 @@ function done(err) {
   this.session++;
   this.running = false;
   this.emit('end', err);
-};
+}
