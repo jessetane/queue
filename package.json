@@ -10,17 +10,17 @@
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "tape": "*",
-    "browserify": "*"
+    "tape": "^2.14.0",
+    "browserify": "^5.9.1"
   },
-  "scripts":{
+  "scripts": {
     "test": "node test",
     "test-browser": "browserify test/index.js > test/bundle.js && { [ -x \"$(which open)\" ] && open test/index.html || xdg-open test/index.html; }",
     "example": "node example"
   },
-  "testling" : {
-    "files" : "test/index.js",
-    "browsers" : [
+  "testling": {
+    "files": "test/index.js",
+    "browsers": [
       "ie/8..latest",
       "ff/24..latest",
       "chrome/25..latest",
