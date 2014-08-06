@@ -5,7 +5,7 @@
  \__, /\__,_/\___/\__,_/\___/ 
    /_/                        
 ```
-async job queue with adjustable concurrency.
+asynchronous function queue with adjustable concurrency.
 
 [![browser support](http://ci.testling.com/jessetane/queue.png)](http://ci.testling.com/jessetane/queue)
 
