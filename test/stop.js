@@ -4,11 +4,7 @@ var queue = require('../');
 tape('stop', function(t) {
   t.plan(4);
 
-  var q = queue();
-  
-  q.on('end', function() {
-    t.equal(q.running, false);
-  });
+  var q = queue({ concurrency: 1 });
 
   q.push(function(cb) {
     setTimeout(function() {
@@ -28,7 +24,9 @@ tape('stop', function(t) {
   });
   
   // start
-  q.start();
+  q.start(function(err) {
+    t.equal(q.running, false);
+  });
   
   // but stop the q before the first job has finished
   setTimeout(function() {

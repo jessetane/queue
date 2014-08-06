@@ -4,7 +4,7 @@ var queue = require('../');
 tape('end', function(t) {
   t.plan(3);
 
-  var q = queue({ concurrency: Infinity });
+  var q = queue();
 
   q.on('end', function(err) {
     t.equal(q.length, 0);
