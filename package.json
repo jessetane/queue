@@ -1,6 +1,6 @@
 {
   "name": "queue",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "asynchronous function queue with adjustable concurrency",
   "keywords": [
     "queue",
