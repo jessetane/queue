@@ -93,58 +93,58 @@ q.start(function(err) {
 ```
 
 ## require
-### `var queue = require('queue')`
+#### `var queue = require('queue')`
 
 ## constructor
-### `var q = queue([opts])`
+#### `var q = queue([opts])`
 where `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`
 
 ## instance methods
-### `q.start([cb])`
+#### `q.start([cb])`
 cb, if passed will be called when the queue empties
 
-### `q.stop()`
+#### `q.stop()`
 stops the queue. can be resumed with `q.start()`
 
-### `q.end([err])`
+#### `q.end([err])`
 stop and empty the queue immediately
 
 ## instance methods mixed in from `Array`
 Mozilla has docs on how these methods work [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
-### `q.push(element1, ..., elementN)`  
-### `q.unshift(element1, ..., elementN)`  
-### `q.splice(index , howMany[, element1[, ...[, elementN]]])`  
-### `q.pop()`  
-### `q.shift()`  
-### `q.slice(begin[, end])`  
-### `q.reverse()`  
-### `q.indexOf(searchElement[, fromIndex])`  
-### `q.lastIndexOf(searchElement[, fromIndex])`  
+#### `q.push(element1, ..., elementN)`  
+#### `q.unshift(element1, ..., elementN)`  
+#### `q.splice(index , howMany[, element1[, ...[, elementN]]])`  
+#### `q.pop()`  
+#### `q.shift()`  
+#### `q.slice(begin[, end])`  
+#### `q.reverse()`  
+#### `q.indexOf(searchElement[, fromIndex])`  
+#### `q.lastIndexOf(searchElement[, fromIndex])`  
 
 ## properties
-### `q.concurrency`
+#### `q.concurrency`
 max number of jobs the queue should process concurrently, defaults to `Infinity`
 
-### `q.timeout`
+#### `q.timeout`
 milliseconds to wait for a job to execute its callback
 
-### `q.length`
+#### `q.length`
 jobs pending + jobs to process (readonly)
 
 ## events
 
-### `q.emit('success', result, job)`
+#### `q.emit('success', result, job)`
 after a job executes its callback
 
-### `q.emit('error', err, job)`
+#### `q.emit('error', err, job)`
 after a job passes an error to its callback
 
-### `q.emit('timeout', continue, job)`
+#### `q.emit('timeout', continue, job)`
 after `q.timeout` milliseconds have elapsed and a job has not executed its callback
 
-### `q.emit('end'[, err])`
+#### `q.emit('end'[, err])`
 after all jobs have been processed
 
 ## changelog
