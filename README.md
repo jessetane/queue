@@ -10,7 +10,7 @@ async job queue with adjustable concurrency.
 [![browser support](http://ci.testling.com/jessetane/queue.png)](http://ci.testling.com/jessetane/queue)
 
 ## why
-[async](https://github.com/caolan/async) is a big libray offering various approaches to dealing with asynchrony; `queue` is a tiny library offering a single, flexible abstraction.
+[async](https://github.com/caolan/async) is a big libray offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
 
 ## how
 this module exports a class `Queue` that implements most of the `Array` api. pass async functions (ones that accept a callback) to an instance's additive array methods. processing begins when you call `q.start()`
