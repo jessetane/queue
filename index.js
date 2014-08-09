@@ -116,12 +116,9 @@ Queue.prototype.stop = function() {
 };
 
 Queue.prototype.end = function(err) {
-  if (this.jobs.length || this.pending) {
-    this.jobs = [];
-    this.pending = 0;
-    this.session++;
-    done.call(this, err);
-  }
+  this.jobs = [];
+  this.pending = 0;
+  done.call(this, err);
 };
 
 function done(err) {
