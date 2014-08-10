@@ -5,24 +5,27 @@
  \__, /\__,_/\___/\__,_/\___/ 
    /_/                        
 ```
-asynchronous function queue with adjustable concurrency.
+Asynchronous function queue with adjustable concurrency.
+
+[![npm](http://img.shields.io/npm/v/queue.svg?style=flat)](http://npmjs.org/queue)
+[![downloads](https://img.shields.io/npm/dm/queue.svg?style=flat)](https://www.npmjs.org/package/queue)
 
 [![browser support](http://ci.testling.com/jessetane/queue.png)](http://ci.testling.com/jessetane/queue)
 
-## why
-[async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
+## Why
+[Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
 
-## how
-this module exports a class `Queue` that implements most of the `Array` api. pass async functions (ones that accept a callback) to an instance's additive array methods. processing begins when you call `q.start()`
+## How
+This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
-## install
+## Install
 `npm install queue`  
 
-## test
+## Test
 `npm test`  
 `npm run test-browser`
 
-## example
+## Example
 `npm run example`
 ``` javascript
 var queue = require('queue');
@@ -92,26 +95,26 @@ q.start(function(err) {
 });
 ```
 
-## require
+## Require
 #### `var queue = require('queue')`
 
-## constructor
+## Constructor
 #### `var q = queue([opts])`
-where `opts` may contain inital values for:
+Where `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`
 
-## instance methods
+## Instance methods
 #### `q.start([cb])`
-cb, if passed will be called when the queue empties
+cb, if passed will be called when the queue empties.
 
 #### `q.stop()`
-stops the queue. can be resumed with `q.start()`
+Stops the queue. can be resumed with `q.start()`.
 
 #### `q.end([err])`
-stop and empty the queue immediately
+Stop and empty the queue immediately.
 
-## instance methods mixed in from `Array`
+## Instance methods mixed in from `Array`
 Mozilla has docs on how these methods work [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
 #### `q.push(element1, ..., elementN)`  
 #### `q.unshift(element1, ..., elementN)`  
@@ -123,35 +126,43 @@ Mozilla has docs on how these methods work [here](https://developer.mozilla.org/
 #### `q.indexOf(searchElement[, fromIndex])`  
 #### `q.lastIndexOf(searchElement[, fromIndex])`  
 
-## properties
+## Properties
 #### `q.concurrency`
-max number of jobs the queue should process concurrently, defaults to `Infinity`
+Max number of jobs the queue should process concurrently, defaults to `Infinity`.
 
 #### `q.timeout`
-milliseconds to wait for a job to execute its callback
+Milliseconds to wait for a job to execute its callback.
 
 #### `q.length`
-jobs pending + jobs to process (readonly)
+Jobs pending + jobs to process (readonly).
 
-## events
+## Events
 
 #### `q.emit('success', result, job)`
-after a job executes its callback
+After a job executes its callback.
 
 #### `q.emit('error', err, job)`
-after a job passes an error to its callback
+After a job passes an error to its callback.
 
 #### `q.emit('timeout', continue, job)`
-after `q.timeout` milliseconds have elapsed and a job has not executed its callback
+After `q.timeout` milliseconds have elapsed and a job has not executed its callback.
 
 #### `q.emit('end'[, err])`
-after all jobs have been processed
+After all jobs have been processed
 
-## changelog
-* version 3.0 
-  * changes the default concurrency to `Infinity`
-  * allow `q.start()` to accept an optional callback executed on `q.emit('end')`
-* version 2.0 introduces api changes and is not backwards compatible with 1.0
+## Releases
+The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [3.0.x](https://github.com/jessetane/queue/archive/3.0.5.tar.gz)
+ * Change the default concurrency to `Infinity`
+ * Allow `q.start()` to accept an optional callback executed on `q.emit('end')`
+* [2.x](https://github.com/jessetane/queue/archive/2.2.0.tar.gz)
+ * Major api changes / not backwards compatible with 1.x
+* [1.x](https://github.com/jessetane/queue/archive/1.0.2.tar.gz)
+ * Early prototype
 
-## license
-WTFPL
+## License
+Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the [WTFPL](http://www.wtfpl.net/txt/copying),
+as published by Sam Hocevar. See http://www.wtfpl.net for more details.
