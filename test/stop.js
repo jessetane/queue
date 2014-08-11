@@ -14,8 +14,8 @@ tape('stop', function(t) {
       // restart
       setTimeout(function() {
         q.start();
-      }, 20);
-    }, 20);
+      }, 30);
+    }, 30);
   });
   
   q.push(function(cb) {
@@ -32,5 +32,5 @@ tape('stop', function(t) {
   setTimeout(function() {
     t.equal(q.length, 2);
     q.stop();
-  }, 10);
+  }, 0);
 });

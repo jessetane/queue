@@ -6,18 +6,8 @@ tape('end', function(t) {
 
   var q = queue();
 
-  q.on('end', function(err) {
-    t.equal(q.length, 0);
-    
-    if (err) {
-      q.push(function(cb) { 
-        setTimeout(cb, 5);
-      });
-    }
-  });
-
   q.push(function(cb) {
-    setTimeout(cb, 3);
+    setTimeout(cb, 0);
   });
 
   q.push(function(cb) {
@@ -25,19 +15,27 @@ tape('end', function(t) {
       t.equal(q.length, 2);
       q.end(new Error('fake error'));
       setTimeout(function() {
-        
+
         // session has changed so this should be a nop
         cb();
-        
+
         // and we should still have one job left
         t.equal(q.length, 1);
-      }, 3);
-    }, 5);
+      }, 30);
+    }, 30);
   });
 
   q.push(function(cb) {
-    setTimeout(cb, 7);
+    setTimeout(cb, 90);
   });
-  
-  q.start();
+
+  q.start(function(err) {
+    t.equal(q.length, 0);
+    
+    if (err) {
+      q.push(function(cb) { 
+        setTimeout(cb, 0);
+      });
+    }
+  });
 });

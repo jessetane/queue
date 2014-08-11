@@ -6,17 +6,12 @@ tape('length', function(t) {
 
   var q = queue();
 
-  q.on('end', function() {
-    t.equal(q.pending, 0);
-    t.equal(q.length, 0);
-  });
-
   q.push(function(cb) {
     setTimeout(function() {
       t.equal(q.length, 3);
       cb();
       t.equal(q.length, 2);
-    }, 3);
+    }, 0);
   });
 
   q.push(function(cb) {
@@ -24,7 +19,7 @@ tape('length', function(t) {
       t.equal(q.length, 2);
       cb();
       t.equal(q.length, 1);
-    }, 5);
+    }, 30);
   });
 
   q.push(function(cb) {
@@ -32,13 +27,16 @@ tape('length', function(t) {
       t.equal(q.length, 1);
       cb();
       t.equal(q.length, 0);
-    }, 7);
+    }, 60);
   });
 
   t.equal(q.pending, 0);
   t.equal(q.length, 3);
 
-  q.start();
+  q.start(function() {
+    t.equal(q.pending, 0);
+    t.equal(q.length, 0);
+  });
   
   t.equal(q.pending, 3);
   t.equal(q.length, 3);

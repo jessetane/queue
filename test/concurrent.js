@@ -6,8 +6,29 @@ tape('concurrent', function(t) {
   
   var actual = [];
   var q = queue({ concurrency: 100 });
-  
-  q.on('end', function() {
+
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('one');
+      cb();
+    }, 0);
+  });
+
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('three');
+      cb();
+    }, 60);
+  });
+
+  q.push(function(cb) {
+    setTimeout(function() {
+      actual.push('two');
+      cb();
+    }, 30);
+  });
+
+  q.start(function() {
     var expected = [ 'one', 'two', 'three' ];
     t.equal(actual.length, expected.length);
 
@@ -17,27 +38,4 @@ tape('concurrent', function(t) {
       t.equal(a, e);
     }
   });
-
-  q.push(function(cb) {
-    setTimeout(function() {
-      actual.push('one');
-      cb();
-    }, 10);
-  });
-
-  q.push(function(cb) {
-    setTimeout(function() {
-      actual.push('three');
-      cb();
-    }, 30);
-  });
-
-  q.push(function(cb) {
-    setTimeout(function() {
-      actual.push('two');
-      cb();
-    }, 20);
-  });
-
-  q.start();
 });
