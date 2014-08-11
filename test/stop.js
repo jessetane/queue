@@ -14,8 +14,8 @@ tape('stop', function(t) {
       // restart
       setTimeout(function() {
         q.start();
-      }, 30);
-    }, 30);
+      }, 100);
+    }, 100);
   });
   
   q.push(function(cb) {

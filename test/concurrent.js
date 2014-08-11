@@ -5,7 +5,7 @@ tape('concurrent', function(t) {
   t.plan(4);
   
   var actual = [];
-  var q = queue({ concurrency: 100 });
+  var q = queue();
 
   q.push(function(cb) {
     setTimeout(function() {
@@ -18,14 +18,14 @@ tape('concurrent', function(t) {
     setTimeout(function() {
       actual.push('three');
       cb();
-    }, 60);
+    }, 200);
   });
 
   q.push(function(cb) {
     setTimeout(function() {
       actual.push('two');
       cb();
-    }, 30);
+    }, 100);
   });
 
   q.start(function() {
