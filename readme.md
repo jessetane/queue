@@ -164,5 +164,6 @@ The latest stable release is published to [npm](http://npmjs.org/queue). Abbrevi
 Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
 
 This work is free. You can redistribute it and/or modify it under the
-terms of the [WTFPL](http://www.wtfpl.net/txt/copying),
-as published by Sam Hocevar. See http://www.wtfpl.net for more details.
+terms of the [WTFPL](http://www.wtfpl.net/txt/copying).
+
+No Warranty. The Software is provided "as is" without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement.
