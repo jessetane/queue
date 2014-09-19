@@ -106,7 +106,7 @@ Where `opts` may contain inital values for:
 
 ## Instance methods
 #### `q.start([cb])`
-cb, if passed will be called when the queue empties.
+cb, if passed, will be called when the queue empties or when an error occurs.
 
 #### `q.stop()`
 Stops the queue. can be resumed with `q.start()`.
