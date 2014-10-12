@@ -21,12 +21,12 @@ tape('end', function(t) {
 
         // and we should still have one job left
         t.equal(q.length, 1);
-      }, 30);
-    }, 30);
+      }, 100);
+    }, 100);
   });
 
   q.push(function(cb) {
-    setTimeout(cb, 90);
+    setTimeout(cb, 300);
   });
 
   q.start(function(err) {

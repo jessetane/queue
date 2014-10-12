@@ -13,17 +13,17 @@ tape('error', function(t) {
   });
 
   q.push(function(cb) {
-    setTimeout(cb, 30);
+    setTimeout(cb, 100);
   });
 
   q.push(function(cb) {
     setTimeout(function() {
       cb(new Error('something broke'));
-    }, 60);
+    }, 200);
   });
 
   q.push(function(cb) {
-    setTimeout(cb, 90);
+    setTimeout(cb, 300);
   });
   
   q.start();
