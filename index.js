@@ -67,7 +67,7 @@ Queue.prototype.start = function(cb) {
   var timeoutId = null;
   var didTimeout = false;
   
-  var next = function(err, result) {
+  function next(err, result) {
     if (once && self.session === session) {
       once = false;
       self.pending--;
@@ -89,7 +89,7 @@ Queue.prototype.start = function(cb) {
         }
       }
     }
-  };
+  }
   
   if (this.timeout) {
     timeoutId = setTimeout(function() {
