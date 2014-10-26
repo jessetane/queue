@@ -33,9 +33,7 @@ tape('end', function(t) {
     t.equal(q.length, 0);
     
     if (err) {
-      q.push(function(cb) { 
-        setTimeout(cb, 0);
-      });
+      q.push(function() {});
     }
   });
 });
