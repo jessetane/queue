@@ -20,12 +20,15 @@
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "tape": "^2.14.0",
-    "browserify": "^5.9.1"
+    "browserify": "^5.9.1",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.2",
+    "tape": "^2.14.0"
   },
   "scripts": {
     "test": "node test",
     "test-browser": "browserify test/index.js > test/bundle.js && { [ -x \"$(which open)\" ] && open test/index.html || xdg-open test/index.html; }",
+    "travis": "istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
     "example": "node example"
   },
   "testling": {
