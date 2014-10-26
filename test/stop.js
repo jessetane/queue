@@ -2,7 +2,7 @@ var tape = require('tape');
 var queue = require('../');
 
 tape('stop', function(t) {
-  t.plan(4);
+  t.plan(5);
 
   var q = queue({ concurrency: 1 });
 
@@ -13,7 +13,9 @@ tape('stop', function(t) {
       
       // restart
       setTimeout(function() {
-        q.start();
+        q.start(function() {
+          t.ok(q);
+        });
       }, 100);
     }, 100);
   });
