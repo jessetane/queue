@@ -56,8 +56,8 @@ Queue.prototype.start = function(cb) {
     return;
   }
   
-  var job = this.jobs.shift();
   var self = this;
+  var job = this.jobs.shift();
   var once = true;
   var session = this.session;
   var timeoutId = null;
