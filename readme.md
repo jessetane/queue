@@ -8,7 +8,7 @@
 Asynchronous function queue with adjustable concurrency.
 
 [![npm](http://img.shields.io/npm/v/queue.svg?style=flat)](http://www.npmjs.org/queue)
-[![tests](https://img.shields.io/travis/jessetane/queue.svg?style=flat)](https://www.npmjs.org/package/queue)
+[![tests](https://img.shields.io/travis/jessetane/queue.svg?style=flat)](https://travis-ci.org/jessetane/queue)
 [![coverage](https://img.shields.io/coveralls/jessetane/queue.svg?style=flat)](https://coveralls.io/r/jessetane/queue)
 [![downloads](https://img.shields.io/npm/dm/queue.svg?style=flat)](https://www.npmjs.org/queue)
 
