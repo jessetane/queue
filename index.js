@@ -42,14 +42,10 @@ Object.defineProperty(Queue.prototype, 'length', { get: function() {
 
 Queue.prototype.start = function(cb) {
   if (cb) {
-    this.on('error', this.end.bind(this));
-    this.on('end', function(err) {
-      cb(err);
-    });
+    callOnErrorOrEnd.call(this, cb);
   }
 
   if (this.pending === this.concurrency) {
-    if (cb) cb();
     return;
   }
   
@@ -120,6 +116,19 @@ Queue.prototype.end = function(err) {
   this.pending = 0;
   done.call(this, err);
 };
+
+function callOnErrorOrEnd(cb) {
+  var self = this;
+  this.on('error', onerror);
+  this.on('end', onend);
+
+  function onerror(err) { self.end(err); }
+  function onend(err) {
+    self.removeListener('error', onerror);
+    self.removeListener('end', onend);
+    cb(err);
+  }
+}
 
 function done(err) {
   this.session++;
