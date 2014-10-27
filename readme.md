@@ -12,8 +12,6 @@ Asynchronous function queue with adjustable concurrency.
 [![tests](https://img.shields.io/travis/jessetane/queue.svg?style=flat)](https://travis-ci.org/jessetane/queue)
 [![coverage](https://img.shields.io/coveralls/jessetane/queue.svg?style=flat)](https://coveralls.io/r/jessetane/queue)
 
-[![browser support](http://ci.testling.com/jessetane/queue.png)](http://ci.testling.com/jessetane/queue)
-
 ## Why
 [Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
 

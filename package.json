@@ -31,16 +31,6 @@
     "travis": "istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
     "example": "node example"
   },
-  "testling": {
-    "files": "test/index.js",
-    "browsers": [
-      "ie/8..latest",
-      "ff/24..latest",
-      "chrome/25..latest",
-      "safari/5.1..latest",
-      "opera/12..latest"
-    ]
-  },
   "author": "Jesse Tane <jesse.tane@gmail.com>",
   "license": "WTFPL"
 }
