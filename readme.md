@@ -151,6 +151,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [3.1.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
+ * Add .npmignore
 * [3.0.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
  * Change the default concurrency to `Infinity`
  * Allow `q.start()` to accept an optional callback executed on `q.emit('end')`
