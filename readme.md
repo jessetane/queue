@@ -151,6 +151,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
+ * Change license to MIT
 * [3.1.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
  * Add .npmignore
 * [3.0.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
