@@ -32,5 +32,5 @@
     "example": "node example"
   },
   "author": "Jesse Tane <jesse.tane@gmail.com>",
-  "license": "WTFPL"
+  "license": "MIT"
 }

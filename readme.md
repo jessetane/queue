@@ -1,9 +1,9 @@
 ```
-   ____  __  _____  __  _____ 
+   ____  __  _____  __  _____
   / __ `/ / / / _ \/ / / / _ \
  / /_/ / /_/ /  __/ /_/ /  __/
- \__, /\__,_/\___/\__,_/\___/ 
-   /_/                        
+ \__, /\__,_/\___/\__,_/\___/
+   /_/
 ```
 Asynchronous function queue with adjustable concurrency.
 
@@ -18,10 +18,10 @@ Asynchronous function queue with adjustable concurrency.
 This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
 ## Install
-`npm install queue`  
+`npm install queue`
 
 ## Test
-`npm test`  
+`npm test`
 `npm run test-browser`
 
 ## Example
@@ -60,7 +60,7 @@ q.splice(2, 0, function(cb) {
   cb();
 });
 
-// use the timeout feature to deal with jobs that 
+// use the timeout feature to deal with jobs that
 // take too long or forget to execute a callback
 
 q.timeout = 100;
@@ -115,15 +115,15 @@ Stop and empty the queue immediately.
 
 ## Instance methods mixed in from `Array`
 Mozilla has docs on how these methods work [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
-#### `q.push(element1, ..., elementN)`  
-#### `q.unshift(element1, ..., elementN)`  
-#### `q.splice(index , howMany[, element1[, ...[, elementN]]])`  
-#### `q.pop()`  
-#### `q.shift()`  
-#### `q.slice(begin[, end])`  
-#### `q.reverse()`  
-#### `q.indexOf(searchElement[, fromIndex])`  
-#### `q.lastIndexOf(searchElement[, fromIndex])`  
+#### `q.push(element1, ..., elementN)`
+#### `q.unshift(element1, ..., elementN)`
+#### `q.splice(index , howMany[, element1[, ...[, elementN]]])`
+#### `q.pop()`
+#### `q.shift()`
+#### `q.slice(begin[, end])`
+#### `q.reverse()`
+#### `q.indexOf(searchElement[, fromIndex])`
+#### `q.lastIndexOf(searchElement[, fromIndex])`
 
 ## Properties
 #### `q.concurrency`
@@ -165,6 +165,5 @@ The latest stable release is published to [npm](http://npmjs.org/queue). Abbrevi
 Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
 
 This work is free. You can redistribute it and/or modify it under the
-terms of the [WTFPL](http://www.wtfpl.net/txt/copying).
-
-No Warranty. The Software is provided "as is" without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement.
+terms of the [MIT License](https://opensource.org/licenses/MIT).
+See LICENSE for full details.
