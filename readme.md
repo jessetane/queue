@@ -8,8 +8,8 @@
 Asynchronous function queue with adjustable concurrency.
 
 [![npm](http://img.shields.io/npm/v/queue.svg?style=flat-square)](http://www.npmjs.org/queue)
-[![tests](https://img.shields.io/travis/jessetane/queue.svg?style=flat-square&branch=master)](https://travis-ci.org/jessetane/queue)
-[![coverage](https://img.shields.io/coveralls/jessetane/queue.svg?style=flat-square&branch=master)](https://coveralls.io/r/jessetane/queue)
+[![tests](https://img.shields.io/travis/nicholasrq/queue.svg?style=flat-square&branch=master)](https://travis-ci.org/nicholasrq/queue)
+[![coverage](https://img.shields.io/coveralls/nicholasrq/queue.svg?style=flat-square&branch=master)](https://coveralls.io/r/nicholasrq/queue)
 
 ## Why
 [Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
