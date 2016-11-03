@@ -4,6 +4,7 @@
   "description": "Server/browser async queue based on jessetane/queue",
   "keywords": [
     "queue",
+    "kyoo",
     "async",
     "asynchronous",
     "synchronous",
@@ -14,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicholasrq/queue.git"
+    "url": "https://github.com/nicholasrq/kyoo.git"
   },
   "dependencies": {
     "inherits": "~2.0.0"
