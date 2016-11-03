@@ -154,7 +154,7 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/kyoo). Abbreviated changelog below:
-* [5.0](https://github.com/jessetane/queue/archive/5.0.0.tar.gz)
+* [5.0](https://github.com/nicholasrq/kyoo/archive/5.0.0.tar.gz)
   * Rewriten in ES6 and renamed (Queue => Kyoo)
 * [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
   * Change license to MIT
