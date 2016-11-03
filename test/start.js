@@ -4,7 +4,7 @@ var queue = require('../');
 tape('start', function(t) {
   t.plan(3);
 
-  var q = new queue();
+  var q = new kyoo();
 
   q.push(function(cb) {
     t.ok(q);

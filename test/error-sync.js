@@ -4,7 +4,7 @@ var queue = require('../');
 tape('error', function(t) {
   t.plan(2);
 
-  var q = new queue();
+  var q = new kyoo();
 
   q.push(function(cb) {
     cb(new Error('something broke'));

@@ -21,7 +21,7 @@ const done = function(err) {
   this.emit('end', err);
 }
 
-class Queue extends EventEmitter{
+class Kyoo extends EventEmitter{
   constructor(options = {}){
     super()
 
@@ -150,17 +150,17 @@ const emulateMethod = function(array, name, ...args){
 }
 
 for (let method of arrayMethods){
-  Queue.prototype[method] = function(...args) {
+  Kyoo.prototype[method] = function(...args) {
     return emulateMethod(this.jobs, method, ...args)
   };
 }
 
 for (let method of arrayMethodsExtended){
-  Queue.prototype[method] = function(...args) {
+  Kyoo.prototype[method] = function(...args) {
     const result = emulateMethod(this.jobs, method, ...args)
     if(!this.running && this.autostart) this.start()
     return result
   };
 }
 
-module.exports = Queue
+module.exports = Kyoo

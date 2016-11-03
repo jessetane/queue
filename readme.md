@@ -1,26 +1,15 @@
-```
-   ____  __  _____  __  _____
-  / __ `/ / / / _ \/ / / / _ \
- / /_/ / /_/ /  __/ /_/ /  __/
- \__, /\__,_/\___/\__,_/\___/
-   /_/
-```
-
-```
-     __
-    / /  __  __
-   / /_/  /
-  /      /
- /  /\  \
-/__/  \__\
-```
-<!-- kyoo -->
+[![kyoo](https://raw.githubusercontent.com/nicholasrq/kyoo/master/kyoo.png)](http://npmjs.org/kyoo)
 
 Asynchronous function queue with adjustable concurrency.
+
+This repo is based on original [Queue](https://github.com/jessetane/queue) implementation and completely re-writen using modern ES6 (you'll need Node 6.x+ or Babel to work with it).
 
 [![npm](http://img.shields.io/npm/v/queue.svg?style=flat-square)](http://www.npmjs.org/queue)
 [![tests](https://img.shields.io/travis/nicholasrq/queue.svg?style=flat-square&branch=master)](https://travis-ci.org/nicholasrq/queue)
 [![coverage](https://img.shields.io/coveralls/nicholasrq/queue.svg?style=flat-square&branch=master)](https://coveralls.io/r/nicholasrq/queue)
+
+## Why "Kyoo"
+Kyoo ("kyo͞o" actually) is a transcription of word "queue". Taken because all "queue" things were already used all over npm and github :)
 
 ## Why
 [Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.

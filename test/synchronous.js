@@ -5,7 +5,7 @@ tape('synchronous', function(t) {
   t.plan(4);
   
   var actual = [];
-  var q = new queue({ concurrency: 1 });
+  var q = new kyoo({ concurrency: 1 });
   
   q.on('end', function() {
     var expected = [ 'one', 'two', 'three' ];
