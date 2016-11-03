@@ -1,6 +1,6 @@
 {
   "name": "kyoo",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Server/browser async queue based on jessetane/queue",
   "keywords": [
     "queue",
