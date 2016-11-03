@@ -1,10 +1,10 @@
 var tape = require('tape');
-var queue = require('../');
+var kyoo = require('../');
 
 tape('error', function(t) {
   t.plan(2);
 
-  var q = queue();
+  var q = new kyoo();
 
   q.on('error', q.end.bind(q));
   q.on('end', function(err) {

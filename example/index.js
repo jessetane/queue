@@ -1,6 +1,6 @@
-var queue = require('../');
+var kyoo = require('../');
 
-var q = queue();
+var q = new kyoo();
 var results = [];
 
 // add jobs using the familiar Array API

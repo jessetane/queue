@@ -1,11 +1,11 @@
 var tape = require('tape');
-var queue = require('../');
+var kyoo = require('../');
 
 tape('concurrent', function(t) {
   t.plan(4);
   
   var actual = [];
-  var q = queue();
+  var q = new kyoo();
 
   q.push(function(cb) {
     setTimeout(function() {

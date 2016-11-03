@@ -1,11 +1,11 @@
 var tape = require('tape');
-var queue = require('../');
+var kyoo = require('../');
 
 tape('timeout', function(t) {
   t.plan(4);
 
   var actual = [];
-  var q = queue({ timeout: 100 });
+  var q = new kyoo({ timeout: 100 });
   
   q.on('timeout', function(next) {
     t.ok(q);
@@ -44,7 +44,7 @@ tape('timeout auto-continue', function(t) {
   t.plan(3);
 
   var actual = [];
-  var q = queue({ timeout: 100 });
+  var q = new kyoo({ timeout: 100 });
 
   q.on('end', function() {
     var expected = [ 'two', 'three' ];

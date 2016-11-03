@@ -1,10 +1,10 @@
 var tape = require('tape');
-var queue = require('../');
+var kyoo = require('../');
 
 tape('length', function(t) {
   t.plan(12);
 
-  var q = queue();
+  var q = new kyoo();
 
   q.push(function(cb) {
     setTimeout(function() {
