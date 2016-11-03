@@ -4,21 +4,21 @@ Asynchronous function queue with adjustable concurrency.
 
 This repo is based on original [Queue](https://github.com/jessetane/queue) implementation and completely re-writen using modern ES6 (you'll need Node 6.x+ or Babel to work with it).
 
-[![npm](http://img.shields.io/npm/v/queue.svg?style=flat-square)](http://www.npmjs.org/queue)
-[![tests](https://img.shields.io/travis/nicholasrq/queue.svg?style=flat-square&branch=master)](https://travis-ci.org/nicholasrq/queue)
-[![coverage](https://img.shields.io/coveralls/nicholasrq/queue.svg?style=flat-square&branch=master)](https://coveralls.io/r/nicholasrq/queue)
+[![npm](http://img.shields.io/npm/v/kyoo.svg?style=flat-square)](http://www.npmjs.org/kyoo)
+[![tests](https://img.shields.io/travis/nicholasrq/kyoo.svg?style=flat-square&branch=master)](https://travis-ci.org/nicholasrq/kyoo)
+[![coverage](https://img.shields.io/coveralls/nicholasrq/kyoo.svg?style=flat-square&branch=master)](https://coveralls.io/r/nicholasrq/kyoo)
 
 ## Why "Kyoo"
 Kyoo ("kyo͞o" actually) is a transcription of word "queue". Taken because all "queue" things were already used all over npm and github :)
 
 ## Why
-[Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `queue` is a small library offering a single, flexible abstraction.
+[Async](https://github.com/caolan/async) is a big library offering various approaches to dealing with asynchrony; `kyoo` is a small library offering a single, flexible abstraction.
 
 ## How
-This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback) to an instance's additive array methods. Processing begins when you call `q.start()`.
+This module exports a class `Kyoo` that implements most of the `Array` API. Pass async functions (ones that accept a callback) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
 ## Install
-`npm install queue`
+`npm install kyoo`
 
 ## Test
 `npm test`
@@ -27,9 +27,9 @@ This module exports a class `Queue` that implements most of the `Array` API. Pas
 ## Example
 `npm run example`
 ``` javascript
-var queue = require('queue');
+var Kyoo = require('kyoo');
 
-var q = new queue();
+var q = new Kyoo();
 var results = [];
 
 // add jobs using the Array API
@@ -95,10 +95,10 @@ q.start(function(err) {
 ```
 
 ## Require
-#### `var queue = require('queue')`
+#### `var Kyoo = require('Kyoo')`
 
 ## Constructor
-#### `var q = new queue([opts])`
+#### `var q = new Kyoo([opts])`
 Where `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`
@@ -150,7 +150,9 @@ After `q.timeout` milliseconds have elapsed and a job has not executed its callb
 After all jobs have been processed
 
 ## Releases
-The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+The latest stable release is published to [npm](http://npmjs.org/kyoo). Abbreviated changelog below:
+* [5.0](https://github.com/jessetane/queue/archive/5.0.0.tar.gz)
+ * Rewriten in ES6 and renamed (Queue => Kyoo)
 * [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
  * Change license to MIT
 * [3.1.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
@@ -165,6 +167,7 @@ The latest stable release is published to [npm](http://npmjs.org/queue). Abbrevi
 
 ## License
 Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
+Copyright © 2016 Nicholas Strife <nr@fenelon.ru>
 
 This work is free. You can redistribute it and/or modify it under the
 terms of the [MIT License](https://opensource.org/licenses/MIT).
