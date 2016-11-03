@@ -126,6 +126,9 @@ Mozilla has docs on how these methods work [here](https://developer.mozilla.org/
 #### `q.lastIndexOf(searchElement[, fromIndex])`
 
 ## Properties
+#### `q.autostart`
+Start queue right after adding functions to it, defaults to `false`.
+
 #### `q.concurrency`
 Max number of jobs the queue should process concurrently, defaults to `Infinity`.
 
@@ -152,18 +155,18 @@ After all jobs have been processed
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/kyoo). Abbreviated changelog below:
 * [5.0](https://github.com/jessetane/queue/archive/5.0.0.tar.gz)
- * Rewriten in ES6 and renamed (Queue => Kyoo)
+  * Rewriten in ES6 and renamed (Queue => Kyoo)
 * [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
- * Change license to MIT
+  * Change license to MIT
 * [3.1.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
- * Add .npmignore
+  * Add .npmignore
 * [3.0.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
- * Change the default concurrency to `Infinity`
- * Allow `q.start()` to accept an optional callback executed on `q.emit('end')`
+  * Change the default concurrency to `Infinity`
+  * Allow `q.start()` to accept an optional callback executed on `q.emit('end')`
 * [2.x](https://github.com/jessetane/queue/archive/2.2.0.tar.gz)
- * Major api changes / not backwards compatible with 1.x
+  * Major api changes / not backwards compatible with 1.x
 * [1.x](https://github.com/jessetane/queue/archive/1.0.2.tar.gz)
- * Early prototype
+  * Early prototype
 
 ## License
 Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
