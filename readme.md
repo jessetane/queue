@@ -29,7 +29,7 @@ This module exports a class `Queue` that implements most of the `Array` API. Pas
 ``` javascript
 var queue = require('queue');
 
-var q = queue();
+var q = new queue();
 var results = [];
 
 // add jobs using the Array API
@@ -98,7 +98,7 @@ q.start(function(err) {
 #### `var queue = require('queue')`
 
 ## Constructor
-#### `var q = queue([opts])`
+#### `var q = new queue([opts])`
 Where `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`

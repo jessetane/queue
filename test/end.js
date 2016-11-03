@@ -4,7 +4,7 @@ var queue = require('../');
 tape('end', function(t) {
   t.plan(3);
 
-  var q = queue();
+  var q = new queue();
 
   q.push(function(cb) {
     setTimeout(cb, 0);

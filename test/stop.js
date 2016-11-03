@@ -4,7 +4,7 @@ var queue = require('../');
 tape('stop', function(t) {
   t.plan(5);
 
-  var q = queue({ concurrency: 1 });
+  var q = new queue({ concurrency: 1 });
 
   q.push(function(cb) {
     setTimeout(function() {

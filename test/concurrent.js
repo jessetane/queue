@@ -5,7 +5,7 @@ tape('concurrent', function(t) {
   t.plan(4);
   
   var actual = [];
-  var q = queue();
+  var q = new queue();
 
   q.push(function(cb) {
     setTimeout(function() {

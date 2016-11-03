@@ -1,6 +1,6 @@
 var queue = require('../');
 
-var q = queue();
+var q = new queue();
 var results = [];
 
 // add jobs using the familiar Array API
