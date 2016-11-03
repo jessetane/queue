@@ -1,5 +1,5 @@
 var tape = require('tape');
-var queue = require('../');
+var kyoo = require('../');
 
 tape('synchronous', function(t) {
   t.plan(4);

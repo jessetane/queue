@@ -1,4 +1,4 @@
-var queue = require('../');
+var kyoo = require('../');
 
 var q = new kyoo();
 var results = [];
