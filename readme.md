@@ -5,6 +5,17 @@
  \__, /\__,_/\___/\__,_/\___/
    /_/
 ```
+
+```
+     __
+    / /  __  __
+   / /_/  /
+  /      /
+ /  /\  \
+/__/  \__\
+```
+<!-- kyoo -->
+
 Asynchronous function queue with adjustable concurrency.
 
 [![npm](http://img.shields.io/npm/v/queue.svg?style=flat-square)](http://www.npmjs.org/queue)

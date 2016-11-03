@@ -1,7 +1,7 @@
 {
-  "name": "queue",
+  "name": "kyoo",
   "version": "5.0.0",
-  "description": "asynchronous function queue with adjustable concurrency",
+  "description": "Server/browser async queue based on jessetane/queue",
   "keywords": [
     "queue",
     "async",
@@ -31,6 +31,6 @@
     "travis": "istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
     "example": "node example"
   },
-  "author": "Jesse Tane <jesse.tane@gmail.com>",
+  "author": "Nicholas <nr@fenelon.ru>",
   "license": "MIT"
 }
