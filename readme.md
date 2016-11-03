@@ -95,7 +95,7 @@ q.start(function(err) {
 ```
 
 ## Require
-#### `var Kyoo = require('Kyoo')`
+#### `var Kyoo = require('kyoo')`
 
 ## Constructor
 #### `var q = new Kyoo([opts])`
