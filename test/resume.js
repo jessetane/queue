@@ -22,7 +22,7 @@ tape('resume', function(t) {
 
   // and stop somewhere in the middle of queue
   setTimeout(function() {
-      q.stop();
+    q.stop();
     q.start();
   }, 600);
 });
