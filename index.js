@@ -45,6 +45,8 @@ Queue.prototype.start = function(cb) {
     callOnErrorOrEnd.call(this, cb);
   }
 
+  this.running = true;
+
   if (this.pending === this.concurrency) {
     return;
   }
@@ -99,7 +101,6 @@ Queue.prototype.start = function(cb) {
   }
   
   this.pending++;
-  this.running = true;
   job(next);
   
   if (this.jobs.length > 0) {
@@ -109,11 +110,6 @@ Queue.prototype.start = function(cb) {
 
 Queue.prototype.stop = function() {
   this.running = false;
-};
-
-Queue.prototype.resume = function() {
-  this.running = true;
-  this.start();
 };
 
 Queue.prototype.end = function(err) {
