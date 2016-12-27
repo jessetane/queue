@@ -111,6 +111,11 @@ Queue.prototype.stop = function() {
   this.running = false;
 };
 
+Queue.prototype.resume = function() {
+  this.running = true;
+  this.start();
+};
+
 Queue.prototype.end = function(err) {
   this.jobs.length = 0;
   this.pending = 0;

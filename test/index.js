@@ -7,3 +7,4 @@ require('./stop');
 require('./end');
 require('./error-sync');
 require('./error-async');
+require('./resume');
