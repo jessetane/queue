@@ -22,8 +22,6 @@ inherits(Queue, EventEmitter);
 var arrayMethods = [
   'pop',
   'shift',
-  'slice',
-  'reverse',
   'indexOf',
   'lastIndexOf'
 ];
@@ -33,6 +31,16 @@ arrayMethods.forEach(function(method) {
     return Array.prototype[method].apply(this.jobs, arguments);
   };
 });
+
+Queue.prototype.slice = function(begin, end) {
+  this.jobs = this.jobs.slice(begin, end);
+  return this;
+};
+
+Queue.prototype.reverse = function() {
+  this.jobs.reverse();
+  return this;
+};
 
 var arrayAddMethods = [
   'push',
