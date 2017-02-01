@@ -15,13 +15,11 @@ function Queue(options) {
   this.session = 0;
   this.running = false;
   this.jobs = [];
+  this.autostart = options.autostart || false;
 }
 inherits(Queue, EventEmitter);
 
 var arrayMethods = [
-  'push',
-  'unshift',
-  'splice',
   'pop',
   'shift',
   'slice',
@@ -30,11 +28,27 @@ var arrayMethods = [
   'lastIndexOf'
 ];
 
-for (var method in arrayMethods) (function(method) {
+arrayMethods.forEach(function(method) {
   Queue.prototype[method] = function() {
     return Array.prototype[method].apply(this.jobs, arguments);
   };
-})(arrayMethods[method]);
+});
+
+var arrayAddMethods = [
+  'push',
+  'unshift',
+  'splice'
+];
+
+arrayAddMethods.forEach(function(method) {
+  Queue.prototype[method] = function() {
+    var methodResult = Array.prototype[method].apply(this.jobs, arguments);
+    if (this.autostart) {
+      this.start();
+    }
+    return methodResult;
+  }
+})
 
 Object.defineProperty(Queue.prototype, 'length', { get: function() {
   return this.pending + this.jobs.length;
@@ -57,14 +71,14 @@ Queue.prototype.start = function(cb) {
     }
     return;
   }
-  
+
   var self = this;
   var job = this.jobs.shift();
   var once = true;
   var session = this.session;
   var timeoutId = null;
   var didTimeout = false;
-  
+
   function next(err, result) {
     if (once && self.session === session) {
       once = false;
@@ -72,13 +86,13 @@ Queue.prototype.start = function(cb) {
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
       }
-      
+
       if (err) {
         self.emit('error', err, job);
       } else if (didTimeout === false) {
         self.emit('success', result, job);
       }
-      
+
       if (self.session === session) {
         if (self.pending === 0 && self.jobs.length === 0) {
           done.call(self);
@@ -88,7 +102,7 @@ Queue.prototype.start = function(cb) {
       }
     }
   }
-  
+
   if (this.timeout) {
     timeoutId = setTimeout(function() {
       didTimeout = true;
