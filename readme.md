@@ -102,6 +102,7 @@ q.start(function(err) {
 Where `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`
+* `q.autostart`
 
 ## Instance methods
 #### `q.start([cb])`
@@ -114,7 +115,7 @@ Stops the queue. can be resumed with `q.start()`.
 Stop and empty the queue immediately.
 
 ## Instance methods mixed in from `Array`
-Mozilla has docs on how these methods work [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
+Mozilla has docs on how these methods work [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array). Note that `slice` does not copy the queue.
 #### `q.push(element1, ..., elementN)`
 #### `q.unshift(element1, ..., elementN)`
 #### `q.splice(index , howMany[, element1[, ...[, elementN]]])`
@@ -131,6 +132,9 @@ Max number of jobs the queue should process concurrently, defaults to `Infinity`
 
 #### `q.timeout`
 Milliseconds to wait for a job to execute its callback.
+
+#### `q.autostart`
+Ensures the queue is always running if jobs are available. Useful in situations where you are using a queue only for concurrency control.
 
 #### `q.length`
 Jobs pending + jobs to process (readonly).
@@ -151,6 +155,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [4.1](https://github.com/jessetane/queue/archive/4.1.0.tar.gz)
+ * Add autostart feature
 * [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
  * Change license to MIT
 * [3.1.x](https://github.com/jessetane/queue/archive/3.0.6.tar.gz)
