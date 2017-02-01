@@ -9,3 +9,4 @@ require('./error-sync');
 require('./error-async');
 require('./resume');
 require('./autostart');
+require('./array-methods');
