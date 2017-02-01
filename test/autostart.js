@@ -3,6 +3,7 @@ var queue = require('../');
 
 tape('autostart', function(t) {
   t.plan(9);
+
   var expected = [ 'one', 'two', 'three' ];
   var actual = [];
   var q = queue({ autostart: true });
@@ -21,14 +22,16 @@ tape('autostart', function(t) {
     actual.push('one');
     cb();
   });
+
   q.push(function (cb) {
     actual.push('two');
     cb();
   });
+
   setTimeout(function () {
     q.push(function (cb) {
       actual.push('three');
       cb();
     });
-  }, 1000);
+  }, 100);
 })
