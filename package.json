@@ -12,10 +12,6 @@
     "concurrency",
     "concurrent"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jessetane/queue.git"
-  },
   "dependencies": {
     "inherits": "~2.0.0"
   },
@@ -33,6 +29,7 @@
     "example": "node example",
     "lint": "standard"
   },
+  "repository": "https://github.com/jessetane/queue.git",
   "author": "Jesse Tane <jesse.tane@gmail.com>",
   "license": "MIT"
 }
