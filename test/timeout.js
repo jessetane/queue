@@ -73,3 +73,26 @@ tape('timeout auto-continue', function(t) {
 
   q.start();
 });
+
+tape('unref timeouts', function(t) {
+  t.plan(3);
+
+  var q = queue({ timeout: 99999 });
+
+  q.push(function(cb) {
+    t.pass()
+    // forget to call cb
+  });
+
+  q.start();
+
+  q.stop();
+
+  setTimeout(function() {
+    t.equal(q.pending, 1);
+
+    q.end();
+
+    t.equal(q.pending, 0);
+  }, 100)
+});
