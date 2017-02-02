@@ -155,6 +155,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [4.2](https://github.com/jessetane/queue/archive/4.2.0.tar.gz)
+ * Unref timers on end
 * [4.1](https://github.com/jessetane/queue/archive/4.1.0.tar.gz)
  * Add autostart feature
 * [4.0](https://github.com/jessetane/queue/archive/4.0.0.tar.gz)
