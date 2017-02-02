@@ -11,11 +11,12 @@ function Queue(options) {
   options = options || {};
   this.concurrency = options.concurrency || Infinity;
   this.timeout = options.timeout || 0;
+  this.autostart = options.autostart || false;
   this.pending = 0;
   this.session = 0;
   this.running = false;
   this.jobs = [];
-  this.autostart = options.autostart || false;
+  this.timers = {};
 }
 inherits(Queue, EventEmitter);
 
@@ -92,6 +93,7 @@ Queue.prototype.start = function(cb) {
       once = false;
       self.pending--;
       if (timeoutId !== null) {
+        delete self.timers[timeoutId]
         clearTimeout(timeoutId);
       }
 
@@ -120,11 +122,12 @@ Queue.prototype.start = function(cb) {
         next();
       }
     }, this.timeout);
+    this.timers[timeoutId] = timeoutId
   }
-  
+
   this.pending++;
   job(next);
-  
+
   if (this.jobs.length > 0) {
     this.start();
   }
@@ -135,10 +138,19 @@ Queue.prototype.stop = function() {
 };
 
 Queue.prototype.end = function(err) {
+  clearTimers.call(this);
   this.jobs.length = 0;
   this.pending = 0;
   done.call(this, err);
 };
+
+function clearTimers () {
+  for (var key in this.timers) {
+    var timeoutId = this.timers[key]
+    delete this.timers[key]
+    clearTimeout(timeoutId);
+  }
+}
 
 function callOnErrorOrEnd(cb) {
   var self = this;
