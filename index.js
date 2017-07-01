@@ -128,7 +128,7 @@ Queue.prototype.start = function (cb) {
 
   this.pending++
   var promise = job(next)
-  if (promise && promise.then && promise.catch) {
+  if (promise && promise.then && typeof promise.then === 'function') {
     promise.then(function (result) {
       next(null, result)
     }).catch(function (err) {
