@@ -16,8 +16,8 @@ tape('stop', function (t) {
         q.start(function () {
           t.ok(q)
         })
-      }, 100)
-    }, 100)
+      }, 10)
+    }, 10)
   })
 
   q.push(function (cb) {

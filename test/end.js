@@ -20,12 +20,12 @@ tape('end', function (t) {
 
         // and we should still have one job left
         t.equal(q.length, 1)
-      }, 100)
-    }, 100)
+      }, 10)
+    }, 10)
   })
 
   q.push(function (cb) {
-    setTimeout(cb, 300)
+    setTimeout(cb, 30)
   })
 
   q.start(function (err) {

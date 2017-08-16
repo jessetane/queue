@@ -13,17 +13,17 @@ tape('error', function (t) {
   })
 
   q.push(function (cb) {
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function (cb) {
     setTimeout(function () {
       cb(new Error('something broke'))
-    }, 200)
+    }, 20)
   })
 
   q.push(function (cb) {
-    setTimeout(cb, 300)
+    setTimeout(cb, 30)
   })
 
   q.start()

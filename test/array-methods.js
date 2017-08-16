@@ -33,7 +33,7 @@ tape('pop async', function (t) {
 
   q.push(function (cb) {
     results.push(1)
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function (cb) {
@@ -81,7 +81,7 @@ tape('shift async', function (t) {
 
   q.push(function (cb) {
     results.push(1)
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function (cb) {
@@ -129,7 +129,7 @@ tape('slice async', function (t) {
 
   q.push(function (cb) {
     results.push(1)
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function (cb) {

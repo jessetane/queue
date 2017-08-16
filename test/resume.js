@@ -13,7 +13,7 @@ tape('resume', function (t) {
       setTimeout(function () {
         t.ok(q)
         cb()
-      }, 200)
+      }, 10)
     })
   }
 
@@ -24,5 +24,5 @@ tape('resume', function (t) {
   setTimeout(function () {
     q.stop()
     q.start()
-  }, 600)
+  }, 30)
 })

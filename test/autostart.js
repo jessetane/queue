@@ -33,5 +33,5 @@ tape('autostart', function (t) {
       actual.push('three')
       cb()
     })
-  }, 100)
+  }, 10)
 })

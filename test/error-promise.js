@@ -13,20 +13,20 @@ tape('error-promise with error', function (t) {
   })
 
   q.push(function (cb) {
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function () {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
         reject(new Error('something broke'))
-      }, 200)
+      }, 20)
     })
   })
 
   q.push(function () {
     return new Promise(function (resolve, reject) {
-      setTimeout(resolve, 300)
+      setTimeout(resolve, 30)
     })
   })
 
@@ -45,20 +45,20 @@ tape('error-promise with empty error', function (t) {
   })
 
   q.push(function (cb) {
-    setTimeout(cb, 100)
+    setTimeout(cb, 10)
   })
 
   q.push(function () {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
         reject()
-      }, 200)
+      }, 20)
     })
   })
 
   q.push(function () {
     return new Promise(function (resolve, reject) {
-      setTimeout(resolve, 300)
+      setTimeout(resolve, 30)
     })
   })
 

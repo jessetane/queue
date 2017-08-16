@@ -19,7 +19,7 @@ tape('length', function (t) {
       t.equal(q.length, 2)
       cb()
       t.equal(q.length, 1)
-    }, 100)
+    }, 10)
   })
 
   q.push(function (cb) {
@@ -27,7 +27,7 @@ tape('length', function (t) {
       t.equal(q.length, 1)
       cb()
       t.equal(q.length, 0)
-    }, 200)
+    }, 20)
   })
 
   t.equal(q.pending, 0)
