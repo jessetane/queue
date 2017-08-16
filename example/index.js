@@ -21,6 +21,14 @@ q.push(
   }
 )
 
+// jobs are functions that accept a callback or return a promise
+q.push(function () {
+  return new Promise(function (resolve, reject) {
+    results.push('one')
+    resolve()
+  })
+})
+
 q.unshift(function (cb) {
   results.push('one')
   cb()
