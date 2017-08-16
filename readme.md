@@ -102,6 +102,7 @@ Constructor. `opts` may contain inital values for:
 * `q.concurrency`
 * `q.timeout`
 * `q.autostart`
+* `q.results`
 
 ## Instance methods
 ### `q.start([cb])`
@@ -135,6 +136,9 @@ Milliseconds to wait for a job to execute its callback.
 ### `q.autostart`
 Ensures the queue is always running if jobs are available. Useful in situations where you are using a queue only for concurrency control.
 
+### `q.results`
+An array to set job callback arguments on.
+
 ### `q.length`
 Jobs pending + jobs to process (readonly).
 
@@ -154,6 +158,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [4.4](https://github.com/jessetane/queue/archive/4.4.0.tar.gz)
+  * Add results feature
 * [4.3](https://github.com/jessetane/queue/archive/4.3.0.tar.gz)
   * Add promise support (@kwolfy)
 * [4.2](https://github.com/jessetane/queue/archive/4.2.0.tar.gz)
