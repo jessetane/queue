@@ -13,6 +13,7 @@ function Queue (options) {
   this.concurrency = options.concurrency || Infinity
   this.timeout = options.timeout || 0
   this.autostart = options.autostart || false
+  this.results = options.results || null
   this.pending = 0
   this.session = 0
   this.running = false
@@ -90,6 +91,7 @@ Queue.prototype.start = function (cb) {
   var session = this.session
   var timeoutId = null
   var didTimeout = false
+  var resultIndex = null
 
   function next (err, result) {
     if (once && self.session === session) {
@@ -103,6 +105,9 @@ Queue.prototype.start = function (cb) {
       if (err) {
         self.emit('error', err, job)
       } else if (didTimeout === false) {
+        if (resultIndex !== null) {
+          self.results[resultIndex] = Array.prototype.slice.call(arguments, 1)
+        }
         self.emit('success', result, job)
       }
 
@@ -126,6 +131,11 @@ Queue.prototype.start = function (cb) {
       }
     }, this.timeout)
     this.timers[timeoutId] = timeoutId
+  }
+
+  if (this.results) {
+    resultIndex = this.results.length
+    this.results[resultIndex] = null
   }
 
   this.pending++
@@ -171,7 +181,7 @@ function callOnErrorOrEnd (cb) {
   function onend (err) {
     self.removeListener('error', onerror)
     self.removeListener('end', onend)
-    cb(err)
+    cb(err, this.results)
   }
 }
 
