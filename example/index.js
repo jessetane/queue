@@ -4,7 +4,6 @@ var q = queue()
 var results = []
 
 // add jobs using the familiar Array API
-
 q.push(function (cb) {
   results.push('two')
   cb()
@@ -21,7 +20,7 @@ q.push(
   }
 )
 
-// jobs are functions that accept a callback or return a promise
+// jobs can accept a callback or return a promise
 q.push(function () {
   return new Promise(function (resolve, reject) {
     results.push('one')
@@ -41,7 +40,6 @@ q.splice(2, 0, function (cb) {
 
 // use the timeout feature to deal with jobs that
 // take too long or forget to execute a callback
-
 q.timeout = 100
 
 q.on('timeout', function (next, job) {
@@ -61,13 +59,11 @@ q.push(function (cb) {
 })
 
 // get notified when jobs complete
-
 q.on('success', function (result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))
 })
 
 // begin processing, get notified on end / failure
-
 q.start(function (err) {
   if (err) throw err
   console.log('all done:', results)
