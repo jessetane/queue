@@ -77,6 +77,14 @@ q.push(function(cb) {
   }, 200);
 });
 
+// you can use promises
+q.push(function () {
+  return new Promise(function (resolve, reject) {
+    resolve('promise result');
+    //reject('promise error')
+  })
+});
+
 q.push(function(cb) {
   console.log('forgot to execute callback');
 });
