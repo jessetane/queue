@@ -31,6 +31,7 @@ tape('promises', function (t) {
       resolve()
     })
   })
+
   q.splice(1, 0, function (cb) {
     return new Promise(function (resolve, reject) {
       actual.push('two')

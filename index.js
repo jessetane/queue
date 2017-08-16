@@ -60,9 +60,11 @@ arrayAddMethods.forEach(function (method) {
   }
 })
 
-Object.defineProperty(Queue.prototype, 'length', { get: function () {
-  return this.pending + this.jobs.length
-}})
+Object.defineProperty(Queue.prototype, 'length', {
+  get: function () {
+    return this.pending + this.jobs.length
+  }
+})
 
 Queue.prototype.start = function (cb) {
   if (cb) {
