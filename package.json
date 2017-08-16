@@ -16,7 +16,6 @@
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "bluebird": "^3.5.0",
     "browserify": "^5.9.1",
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.2",

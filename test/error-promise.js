@@ -1,4 +1,3 @@
-var Promise = require('bluebird')
 var tape = require('tape')
 var queue = require('../')
 
