@@ -148,7 +148,7 @@ Queue.prototype.start = function (cb) {
     })
   }
 
-  if (this.jobs.length > 0) {
+  if (this.running && this.jobs.length > 0) {
     this.start()
   }
 }
