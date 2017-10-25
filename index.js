@@ -74,7 +74,7 @@ Queue.prototype.start = function (cb) {
 
   this.running = true
 
-  if (this.pending === this.concurrency) {
+  if (this.pending >= this.concurrency) {
     return
   }
 
