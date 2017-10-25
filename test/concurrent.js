@@ -2,10 +2,18 @@ var tape = require('tape')
 var queue = require('../')
 
 tape('concurrent', function (t) {
-  t.plan(4)
+  t.plan(6)
 
   var actual = []
   var q = queue()
+  q.concurrency = 2
+
+  q.push(function (cb) {
+    setTimeout(function () {
+      actual.push('two')
+      cb()
+    }, 20)
+  })
 
   q.push(function (cb) {
     setTimeout(function () {
@@ -15,21 +23,29 @@ tape('concurrent', function (t) {
   })
 
   q.push(function (cb) {
+    q.concurrency = 1
     setTimeout(function () {
       actual.push('three')
       cb()
-    }, 20)
+    }, 30)
   })
 
   q.push(function (cb) {
     setTimeout(function () {
-      actual.push('two')
+      actual.push('four')
       cb()
     }, 10)
   })
 
+  q.push(function (cb) {
+    setTimeout(function () {
+      actual.push('five')
+      cb()
+    }, 0)
+  })
+
   q.start(function () {
-    var expected = [ 'one', 'two', 'three' ]
+    var expected = [ 'one', 'two', 'three', 'four', 'five' ]
     t.equal(actual.length, expected.length)
 
     for (var i in actual) {
