@@ -158,10 +158,15 @@ Queue.prototype.stop = function () {
 }
 
 Queue.prototype.end = function (err) {
-  clearTimers.call(this)
-  this.jobs.length = 0
-  this.pending = 0
-  done.call(this, err)
+  clearTimers.call(this);
+  var tmr = setInterval(() => {
+    if (this.pending == 0) {
+      this.pending = 0
+      done.call(this, err);
+      clearInterval(tmr)
+    }
+  }, 1000)
+  this.running=false;
 }
 
 function clearTimers () {
