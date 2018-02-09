@@ -72,9 +72,12 @@ Queue.prototype.start = function (cb) {
     callOnErrorOrEnd.call(this, cb)
   }
 
+  var self = this
+
   this.running = true
 
   if (this.pending >= this.concurrency) {
+    self.emit('pending', this.pending, this.concurrency, this.jobs.length)
     return
   }
 
@@ -85,7 +88,6 @@ Queue.prototype.start = function (cb) {
     return
   }
 
-  var self = this
   var job = this.jobs.shift()
   var once = true
   var session = this.session

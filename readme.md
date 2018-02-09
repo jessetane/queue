@@ -8,8 +8,10 @@
 Asynchronous function queue with adjustable concurrency.
 
 [![npm](http://img.shields.io/npm/v/queue.svg?style=flat-square)](http://www.npmjs.org/queue)
+[![download](https://img.shields.io/npm/dt/queue.svg)](https://www.npmjs.com/package/queue)
 [![tests](https://img.shields.io/travis/jessetane/queue.svg?style=flat-square&branch=master)](https://travis-ci.org/jessetane/queue)
 [![coverage](https://img.shields.io/coveralls/jessetane/queue.svg?style=flat-square&branch=master)](https://coveralls.io/r/jessetane/queue)
+
 
 This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback or return a promise) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
@@ -92,13 +94,15 @@ q.start(function (err) {
 `npm install queue`
 
 ## Test
-`npm test`
-`npm run test-browser`
+```
+npm test
+npm run test-browser
+```
 
 ## API
 
 ### `var q = queue([opts])`
-Constructor. `opts` may contain inital values for:
+Constructor. `opts` may contain initial values for:
 * `q.concurrency`
 * `q.timeout`
 * `q.autostart`
@@ -146,6 +150,9 @@ Jobs pending + jobs to process (readonly).
 
 ### `q.emit('success', result, job)`
 After a job executes its callback.
+
+### `q.emit('pending', pendingNumber, concurrencyValue, jobsLength)`
+After add job which will be waiting to execution.
 
 ### `q.emit('error', err, job)`
 After a job passes an error to its callback.
