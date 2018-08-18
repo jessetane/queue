@@ -2,4 +2,6 @@ language: node_js
 node_js:
   - "6"
   - "node"
-script: npm run travis
+script:
+ - npm run travis
+ - npm run travis-ts
