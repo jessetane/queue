@@ -32,6 +32,8 @@ interface IQueue{
 interface IQueueOptions {
     concurrency?:number
     timeout?:number
+    autostart?:boolean
+    results?:Array<any>
 }
 
 interface IQueueWorker {
