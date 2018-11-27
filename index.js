@@ -142,9 +142,9 @@ Queue.prototype.start = function (cb) {
   var promise = job(next)
   if (promise && promise.then && typeof promise.then === 'function') {
     promise.then(function (result) {
-      next(null, result)
+      return next(null, result)
     }).catch(function (err) {
-      next(err || true)
+      return next(err || true)
     })
   }
 
