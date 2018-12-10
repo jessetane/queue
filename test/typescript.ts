@@ -1,70 +1,55 @@
 // Compilation test covers possible parameters etc., not real code!
 
-import {IQueue, IQueueEventCallback, IQueueOptions, IQueueWorker} from '../';
-declare var require;
-var queue: IQueue = require('../');
+import queue, { Queue, Options, QueueWorker } from '../';
 
-// region interface IQueueEventCallback
-var eventCallback: IQueueEventCallback;
-// (data?:Object|Error|IQueueWorker, job?:IQueueWorker):void
-eventCallback = function(){};
-eventCallback = function(data){};
-eventCallback = function(data, job){};
-eventCallback = function(data, job: IQueueWorker){};
-eventCallback = function(data:Object, job: IQueueWorker){};
-eventCallback = function(data:Error, job: IQueueWorker){};
-eventCallback = function(data:IQueueWorker, job: IQueueWorker){};
-eventCallback = function(data:Object|Error|IQueueWorker, job: IQueueWorker){};
-// endregion interface IQueueEventCallback
-
-// region interface IQueueWorker
-var worker:IQueueWorker
+// region interface QueueWorker
+var worker: QueueWorker
 // (cb?:(err?:Error, data?:Object)  => void):void
-worker = function (cb){
+worker = function (cb) {
 	cb();
 	cb(new Error(''));
 	cb(new Error(''), {});
 };
-// endregion interface IQueueWorker
+// endregion interface QueueWorker
 
 // region interface IQueueOptions
-var qOpts1:IQueueOptions = {
+var qOpts1: Options = {
 	concurrency: 1,
 	timeout: 10
 };
-var qOpts2:IQueueOptions = {
+var qOpts2: Options = {
 	concurrency: 1
 };
-var qOpts3:IQueueOptions = {
+var qOpts3: Options = {
 	timeout: 10
 };
-var qOpts4:IQueueOptions = {};
+var qOpts4: Options = {};
 // endregion interface IQueueOptions
 
 // region interface IQueue
 
 // (opts?:IQueueOptions): IQueue
-var q:IQueue;
+var q: Queue;
 q = queue(qOpts1);
 q = queue(qOpts2);
 q = queue(qOpts3);
 q = queue(qOpts4);
 q = queue();
 
-//push(...worker:IQueueWorker[]):number
+//push(...worker:QueueWorker[]):number
 var count: number;
 count = q.push(worker);
 count = q.push(worker, worker);
 
 // start(callback?:(error?:Error) => void):void
-var callback:(error?:Error) => void;
-callback = function(){};
-callback = function(err){};
+var callback: (error?: Error) => void;
+callback = function () { };
+callback = function (err) { };
 q.start();
 q.start(callback);
 
 // on(event:string, callback:IQueueEventCallback):void
-q.on('someevent', eventCallback);
+q.on('someevent', (data: Object | Error | QueueWorker, job: QueueWorker) => { });
 
 // stop():void
 q.stop();
@@ -73,39 +58,39 @@ q.stop();
 q.end();
 q.end(new Error('some Error'));
 
-// unshift(...worker:IQueueWorker[]):number
+// unshift(...worker:QueueWorker[]):number
 var myNumber: number;
 myNumber = q.unshift(worker);
 myNumber = q.unshift(worker, worker);
 
-// splice(index:number, deleteHowMany:number, ...worker:IQueueWorker[]):IQueue
-var _q:IQueue;
-_q = q.splice(0,1);
-_q = q.splice(0,1,worker);
-_q = q.splice(0,1,worker,worker);
+// splice(index:number, deleteHowMany:number, ...worker:QueueWorker[]):IQueue
+var _q: Queue;
+_q = q.splice(0, 1);
+_q = q.splice(0, 1, worker);
+_q = q.splice(0, 1, worker, worker);
 
-var myWorker:IQueueWorker|void;
+var myWorker: QueueWorker | void;
 
-// pop():IQueueWorker|void
-myWorker = q. pop();
+// pop():QueueWorker|void
+myWorker = q.pop();
 q.pop();
 
-// shift():IQueueWorker|void
+// shift():QueueWorker|void
 myWorker = q.shift();
 q.shift();
 
 // slice(begin:number, end?:number):IQueue
-_q = q.slice(0,5);
+_q = q.slice(0, 5);
 _q = q.slice(0);
 
 // reverse():IQueue
 _q = q.reverse();
 
-// indexOf(searchElement:IQueueWorker, fromIndex?:number):number
+// indexOf(searchElement:QueueWorker, fromIndex?:number):number
 myNumber = q.indexOf(worker);
 myNumber = q.indexOf(worker, 5);
 
-// lastIndexOf(searchElement:IQueueWorker, fromIndex?:number):number
+// lastIndexOf(searchElement:QueueWorker, fromIndex?:number):number
 myNumber = q.lastIndexOf(worker);
 myNumber = q.lastIndexOf(worker, 5);
 
