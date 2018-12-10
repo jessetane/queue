@@ -1,5 +1,5 @@
 import { expectType } from 'tsd-check';
-import queue, { Options, Queue, QueueWorker, QueueWorkerCallback } from '.'
+import Queue, { Options, QueueWorker, QueueWorkerCallback } from '.'
 
 expectType<Options>({});
 expectType<Options>({ concurrency: 0 });
@@ -15,11 +15,14 @@ expectType<QueueWorkerCallback>((data: Error) => undefined);
 expectType<QueueWorkerCallback>((error: Error) => undefined);
 expectType<QueueWorkerCallback>((error: Error, data: Object) => undefined);
 
-expectType<Queue>(queue());
-expectType<Queue>(queue({}));
-expectType<Queue>(queue({ concurrency: 0, timeout: 0, autostart: true, results: [] }));
+expectType<Queue>(Queue());
+expectType<Queue>(Queue({}));
+expectType<Queue>(Queue({ concurrency: 0, timeout: 0, autostart: true, results: [] }));
+expectType<Queue>(new Queue());
+expectType<Queue>(new Queue({}));
+expectType<Queue>(new Queue({ concurrency: 0, timeout: 0, autostart: true, results: [] }));
 
-const q: Queue = queue();
+const q: Queue = Queue();
 
 expectType<Queue>(q);
 expectType<number>(q.push(() => { }));
