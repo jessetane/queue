@@ -2,6 +2,7 @@ var inherits = require('inherits')
 var EventEmitter = require('events').EventEmitter
 
 module.exports = Queue
+module.exports.default = Queue
 
 function Queue (options) {
   if (!(this instanceof Queue)) {

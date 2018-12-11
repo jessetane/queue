@@ -12,22 +12,28 @@
     "concurrency",
     "concurrent"
   ],
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "dependencies": {
     "inherits": "~2.0.0"
   },
   "devDependencies": {
+    "@types/node": "*",
     "browserify": "^5.9.1",
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.2",
     "standard": "^8.6.0",
     "tape": "^2.14.0",
-    "typescript": "^1.8.9"
+    "tsd-check": "*",
+    "typescript": "^3.2.2"
   },
   "scripts": {
-    "test": "standard && node test",
+    "test": "standard && node test && tsd-check",
     "test-browser": "standard && browserify test/index.js > test/bundle.js && echo \"open test/index.html in your browser\"",
     "travis": "standard && istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
-    "travis-ts": "tsc test/typescript.ts --out /dev/null && echo 'TypeScript compilation passed.'",
+    "travis-ts": "tsc test/typescript.ts --m System --out /dev/null && echo 'TypeScript compilation passed.'",
     "example": "node example",
     "lint": "standard"
   },
