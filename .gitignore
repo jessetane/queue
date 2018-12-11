@@ -1,5 +1,6 @@
 .DS_Store
 .idea
 node_modules
-test/bundle.js
 coverage
+.vscode
+test/bundle.js
