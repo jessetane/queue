@@ -158,6 +158,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [5.0](https://github.com/jessetane/queue/archive/5.0.0.tar.gz)
+  * Updated TypeScript bindings (@Codex-)
 * [4.4](https://github.com/jessetane/queue/archive/4.4.0.tar.gz)
   * Add results feature
 * [4.3](https://github.com/jessetane/queue/archive/4.3.0.tar.gz)
