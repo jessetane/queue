@@ -33,7 +33,7 @@
     "test": "standard && node test && tsd-check",
     "test-browser": "standard && browserify test/index.js > test/bundle.js && echo \"open test/index.html in your browser\"",
     "travis": "standard && istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
-    "travis-ts": "tsc test/typescript.ts --out /dev/null && echo 'TypeScript compilation passed.'",
+    "travis-ts": "tsc test/typescript.ts --m System --out /dev/null && echo 'TypeScript compilation passed.'",
     "example": "node example",
     "lint": "standard"
   },

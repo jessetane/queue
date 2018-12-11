@@ -1,6 +1,6 @@
 // Compilation test covers possible parameters etc., not real code!
 
-import Queue, { Options, QueueWorker } from '../';
+import Queue, { Options, QueueWorker } from '../index';
 
 // region interface QueueWorker
 var worker: QueueWorker
