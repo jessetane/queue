@@ -51,7 +51,7 @@ tape('error-promise with empty error', function (t) {
   q.push(function () {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
-        reject()
+        reject() // eslint-disable-line
       }, 20)
     })
   })
@@ -64,4 +64,3 @@ tape('error-promise with empty error', function (t) {
 
   q.start()
 })
-
