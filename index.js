@@ -141,6 +141,7 @@ Queue.prototype.start = function (cb) {
 
   this.pending++
   var promise = job(next)
+  self.emit('start', job)
   if (promise && promise.then && typeof promise.then === 'function') {
     promise.then(function (result) {
       return next(null, result)

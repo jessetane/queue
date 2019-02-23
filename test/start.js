@@ -2,7 +2,7 @@ var tape = require('tape')
 var queue = require('../')
 
 tape('start', function (t) {
-  t.plan(3)
+  t.plan(4)
 
   var q = queue()
 
@@ -18,4 +18,15 @@ tape('start', function (t) {
       t.ok(q)
     })
   })
+
+  q.on('start', function (job) {
+    t.equals(job, work)
+  })
+
+  function work (cb) {
+    cb()
+  }
+
+  q.push(work)
+  q.start()
 })
