@@ -76,6 +76,18 @@ q.push(function (cb) {
   console.log('forgot to execute callback')
 })
 
+// jobs can also override the queue's timeout
+// on a per-job basis
+function mySlowJob (cb) {
+  setTimeout(function () {
+    console.log('slow job finished')
+    cb()
+  }, 400)
+}
+
+mySlowJob.timeout = 500
+q.push(mySlowJob)
+
 // get notified when jobs complete
 q.on('success', function (result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))
@@ -134,7 +146,7 @@ Mozilla has docs on how these methods work [here](https://developer.mozilla.org/
 Max number of jobs the queue should process concurrently, defaults to `Infinity`.
 
 ### `q.timeout`
-Milliseconds to wait for a job to execute its callback.
+Milliseconds to wait for a job to execute its callback. This can be overridden by specifying a `timeout` property on a per-job basis.
 
 ### `q.autostart`
 Ensures the queue is always running if jobs are available. Useful in situations where you are using a queue only for concurrency control.
@@ -146,6 +158,9 @@ An array to set job callback arguments on.
 Jobs pending + jobs to process (readonly).
 
 ## Events
+
+### `q.emit('start', job)`
+Immediately before a job begins to execute.
 
 ### `q.emit('success', result, job)`
 After a job executes its callback.
@@ -161,6 +176,9 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [5.1](https://github.com/jessetane/queue/archive/5.1.0.tar.gz)
+  * Add `start` event before job begins (@joelgriffith)
+  * Add `timeout` property on a job to override the queue's timeout (@joelgriffith)
 * [5.0](https://github.com/jessetane/queue/archive/5.0.0.tar.gz)
   * Updated TypeScript bindings (@Codex-)
 * [4.4](https://github.com/jessetane/queue/archive/4.4.0.tar.gz)
