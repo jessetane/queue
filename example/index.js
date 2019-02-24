@@ -58,6 +58,18 @@ q.push(function (cb) {
   console.log('forgot to execute callback')
 })
 
+// jobs can also override the queue's timeout
+// on a per-job basis
+function extraSlowJob (cb) {
+  setTimeout(function () {
+    console.log('extra slow job finished')
+    cb()
+  }, 400)
+}
+
+extraSlowJob.timeout = 500
+q.push(extraSlowJob)
+
 // get notified when jobs complete
 q.on('success', function (result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))
