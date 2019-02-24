@@ -5,11 +5,16 @@ tape('start', function (t) {
   t.plan(4)
 
   var q = queue()
-
-  q.push(function (cb) {
+  function work (cb) {
     t.ok(q)
     cb()
+  }
+
+  q.on('start', function (job) {
+    t.equals(job, work)
   })
+
+  q.push(work)
 
   q.start(function () {
     t.ok(q)
@@ -18,15 +23,4 @@ tape('start', function (t) {
       t.ok(q)
     })
   })
-
-  q.on('start', function (job) {
-    t.equals(job, work)
-  })
-
-  function work (cb) {
-    cb()
-  }
-
-  q.push(work)
-  q.start()
 })
