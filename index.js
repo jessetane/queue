@@ -93,6 +93,7 @@ Queue.prototype.start = function (cb) {
   var timeoutId = null
   var didTimeout = false
   var resultIndex = null
+  var timeout = job.timeout || this.timeout
 
   function next (err, result) {
     if (once && self.session === session) {
@@ -122,7 +123,7 @@ Queue.prototype.start = function (cb) {
     }
   }
 
-  if (this.timeout) {
+  if (timeout) {
     timeoutId = setTimeout(function () {
       didTimeout = true
       if (self.listeners('timeout').length > 0) {
@@ -130,7 +131,7 @@ Queue.prototype.start = function (cb) {
       } else {
         next()
       }
-    }, this.timeout)
+    }, timeout)
     this.timers[timeoutId] = timeoutId
   }
 
