@@ -40,6 +40,36 @@ tape('timeout', function (t) {
   q.start()
 })
 
+tape('job timeout', function (t) {
+  t.plan(2)
+
+  var timeouts = 0
+  var q = queue({ timeout: 5 })
+  function willTimeout (cb) {
+    setTimeout(cb, 8)
+  }
+  function wontTimeout (cb) {
+    setTimeout(cb, 8)
+  }
+
+  wontTimeout.timeout = 10
+
+  q.on('timeout', function (next) {
+    t.ok(q)
+    timeouts++
+    next()
+  })
+
+  q.on('end', function () {
+    t.equal(timeouts, 1)
+  })
+
+  q.push(willTimeout)
+  q.push(wontTimeout)
+
+  q.start()
+})
+
 tape('timeout auto-continue', function (t) {
   t.plan(3)
 
