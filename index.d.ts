@@ -161,6 +161,11 @@ export default Queue;
 
 export interface QueueWorker {
     (callback?: QueueWorkerCallback): void;
+
+    /**
+     * Override queue timeout.
+     */
+    timeout?: number;
 }
 
 export interface QueueWorkerCallback {

@@ -10,6 +10,11 @@ expectType<Options>({ results: [0, 'a', true, undefined, NaN] });
 expectType<QueueWorker>(() => undefined);
 expectType<QueueWorker>((callback: QueueWorkerCallback) => undefined);
 
+function withTimeout() { }
+withTimeout.timeout = 1;
+
+expectType<QueueWorker>(withTimeout);
+
 expectType<QueueWorkerCallback>(() => undefined);
 expectType<QueueWorkerCallback>((data: Error) => undefined);
 expectType<QueueWorkerCallback>((error: Error) => undefined);
