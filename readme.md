@@ -56,6 +56,22 @@ q.splice(2, 0, function (cb) {
   cb()
 })
 
+// jobs can send a result to the 'success' event
+q.push(function(callback){
+  asyncJob()
+  .then(result=>callback(null,result))
+  .catch(error=>callback(error))
+})
+
+q.on('success',function(result,job){
+  console.log('Result from asyncJob():' result)
+})
+
+q.on('error', function(error,job){
+  console.log('Error from asyncJob():' error)
+  throw error
+})
+
 // use the timeout feature to deal with jobs that
 // take too long or forget to execute a callback
 q.timeout = 100
