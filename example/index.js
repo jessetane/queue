@@ -38,6 +38,18 @@ q.splice(2, 0, function (cb) {
   cb()
 })
 
+// jobs can send a result to the 'success' event
+function asyncJob () {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve('we waited 75ms'), 75)
+  })
+}
+q.push(function (cb) {
+  asyncJob()
+    .then((result) => cb(null, result))
+    .catch((error) => cb(error))
+})
+
 // use the timeout feature to deal with jobs that
 // take too long or forget to execute a callback
 q.timeout = 100
@@ -72,6 +84,7 @@ q.push(extraSlowJob)
 
 // get notified when jobs complete
 q.on('success', function (result, job) {
+  result && console.log('job returned a result:', result)
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))
 })
 
