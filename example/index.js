@@ -1,41 +1,40 @@
 var queue = require('../')
 
-var q = queue()
-var results = []
+var q = queue({ results: [] })
 
 // add jobs using the familiar Array API
 q.push(function (cb) {
-  results.push('two')
-  cb()
+  const result = 'two'
+  cb(null, result)
 })
 
 q.push(
   function (cb) {
-    results.push('four')
-    cb()
+    const result = 'four'
+    cb(null, result)
   },
   function (cb) {
-    results.push('five')
-    cb()
+    const result = 'five'
+    cb(null, result)
   }
 )
 
 // jobs can accept a callback or return a promise
 q.push(function () {
   return new Promise(function (resolve, reject) {
-    results.push('one')
-    resolve()
+    const result = 'one'
+    resolve(result)
   })
 })
 
 q.unshift(function (cb) {
-  results.push('one')
-  cb()
+  const result = 'one'
+  cb(null, result)
 })
 
 q.splice(2, 0, function (cb) {
-  results.push('three')
-  cb()
+  const result = 'three'
+  cb(null, result)
 })
 
 // use the timeout feature to deal with jobs that
@@ -73,10 +72,11 @@ q.push(extraSlowJob)
 // get notified when jobs complete
 q.on('success', function (result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))
+  console.log('The result is:', result)
 })
 
 // begin processing, get notified on end / failure
 q.start(function (err) {
   if (err) throw err
-  console.log('all done:', results)
+  console.log('all done:', q.results)
 })
