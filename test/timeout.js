@@ -79,7 +79,7 @@ tape('job-based opt-out of timeout', function (t) {
     setTimeout(cb, 8)
   }
 
-  wontTimeout.timeout = undefined
+  wontTimeout.timeout = null
 
   q.on('timeout', function (next) {
     t.fail('Job should not have timed-out')

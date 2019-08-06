@@ -92,10 +92,10 @@ function superSlowJob (cb) {
   setTimeout(function () {
     console.log('super slow job finished')
     cb()
-  }, 10000)
+  }, 1000)
 }
 
-superSlowJob.timeout = undefined
+superSlowJob.timeout = null
 q.push(superSlowJob)
 
 // get notified when jobs complete
@@ -115,8 +115,8 @@ q.start(function (err) {
 ## Install
 `npm install queue`
 
-_Note_: You may need to install the [`events`](https://github.com/Gozala/events) dependency if
-your environment does not have it by default (eg. browser, react-native).
+_Note_: You may need to install the [`events`](https://github.com/Gozala/events) dependency if 
+your environment does not have it by default (eg. browser, react-native). 
 
 ## Test
 `npm test`
