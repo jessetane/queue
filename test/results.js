@@ -2,7 +2,15 @@ var tape = require('tape')
 var queue = require('../')
 
 tape('results', function (t) {
-  t.plan(2)
+  t.plan(6)
+
+  var i = 0
+  var expected = [
+    [42],
+    [3, 2, 1],
+    [],
+    ['string']
+  ]
 
   var q = queue({ results: [] })
 
@@ -24,13 +32,14 @@ tape('results', function (t) {
     }, 10)
   })
 
+  q.on('success', function () {
+    var results = Array.from(arguments).slice(1)
+    t.deepEqual(results, expected[i++])
+  })
+
   q.start(function (err, results) {
     t.error(err)
-    t.deepEqual(results, [
-      ['string'],
-      [42],
-      [3, 2, 1],
-      []
-    ])
+    expected.unshift(expected.pop())
+    t.deepEqual(results, expected)
   })
 })

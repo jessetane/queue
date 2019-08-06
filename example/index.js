@@ -10,31 +10,26 @@ q.push(function (cb) {
 
 q.push(
   function (cb) {
-    const result = 'four'
-    cb(null, result)
+    cb(null, 'four')
   },
   function (cb) {
-    const result = 'five'
-    cb(null, result)
+    cb(null, 'five')
   }
 )
 
 // jobs can accept a callback or return a promise
 q.push(function () {
   return new Promise(function (resolve, reject) {
-    const result = 'one'
-    resolve(result)
+    resolve('six')
   })
 })
 
 q.unshift(function (cb) {
-  const result = 'one'
-  cb(null, result)
+  cb(null, 'one')
 })
 
 q.splice(2, 0, function (cb) {
-  const result = 'three'
-  cb(null, result)
+  cb(null, 'three')
 })
 
 // use the timeout feature to deal with jobs that
@@ -70,9 +65,10 @@ extraSlowJob.timeout = 500
 q.push(extraSlowJob)
 
 // get notified when jobs complete
-q.on('success', function (result, job) {
-  console.log('job finished processing:', job.toString().replace(/\n/g, ''))
-  console.log('The result is:', result)
+q.on('success', function (job, firstResult) {
+  var args = Array.from(arguments)
+  var results = args.slice(1)
+  console.log('job successful, results:', results, 'source:', job.toString().replace(/\n/g, ''))
 })
 
 // begin processing, get notified on end / failure

@@ -93,9 +93,10 @@ Queue.prototype.start = function (cb) {
   var timeoutId = null
   var didTimeout = false
   var resultIndex = null
+  var results = null
   var timeout = job.timeout || this.timeout
 
-  function next (err, result) {
+  function next (err) {
     if (once && self.session === session) {
       once = false
       self.pending--
@@ -108,9 +109,12 @@ Queue.prototype.start = function (cb) {
         self.emit('error', err, job)
       } else if (didTimeout === false) {
         if (resultIndex !== null) {
-          self.results[resultIndex] = Array.prototype.slice.call(arguments, 1)
+          results = Array.prototype.slice.call(arguments, 1)
+          self.results[resultIndex] = results
         }
-        self.emit('success', result, job)
+        if (self.listenerCount('success') > 0) {
+          self.emit.apply(self, ['success'].concat(job, results))
+        }
       }
 
       if (self.session === session) {
@@ -137,7 +141,7 @@ Queue.prototype.start = function (cb) {
 
   if (this.results) {
     resultIndex = this.results.length
-    this.results[resultIndex] = null
+    this.results[resultIndex] = []
   }
 
   this.pending++
