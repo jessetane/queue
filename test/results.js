@@ -33,7 +33,7 @@ tape('results', function (t) {
   })
 
   q.on('success', function () {
-    var results = Array.from(arguments).slice(0, -1)
+    var results = Array.from(arguments).slice(1)
     t.deepEqual(results, expected[i++])
   })
 

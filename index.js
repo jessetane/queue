@@ -113,7 +113,7 @@ Queue.prototype.start = function (cb) {
           self.results[resultIndex] = results
         }
         if (self.listenerCount('success') > 0) {
-          self.emit.apply(self, ['success'].concat(results, job))
+          self.emit.apply(self, ['success'].concat(job, results))
         }
       }
 

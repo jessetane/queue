@@ -65,10 +65,9 @@ extraSlowJob.timeout = 500
 q.push(extraSlowJob)
 
 // get notified when jobs complete
-q.on('success', function (firstResult) {
+q.on('success', function (job, firstResult) {
   var args = Array.from(arguments)
-  var job = args.pop()
-  var results = args
+  var results = args.slice(1)
   console.log('job successful, results:', results, 'source:', job.toString().replace(/\n/g, ''))
 })
 
