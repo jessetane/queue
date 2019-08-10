@@ -93,7 +93,7 @@ Queue.prototype.start = function (cb) {
   var timeoutId = null
   var didTimeout = false
   var resultIndex = null
-  var timeout = job.timeout || this.timeout
+  var timeout = job.hasOwnProperty('timeout') ? job.timeout : this.timeout
 
   function next (err, result) {
     if (once && self.session === session) {

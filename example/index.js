@@ -69,6 +69,17 @@ function extraSlowJob (cb) {
 extraSlowJob.timeout = 500
 q.push(extraSlowJob)
 
+// jobs can also opt-out of the timeout altogether
+function superSlowJob (cb) {
+  setTimeout(function () {
+    console.log('super slow job finished')
+    cb()
+  }, 1000)
+}
+
+superSlowJob.timeout = null
+q.push(superSlowJob)
+
 // get notified when jobs complete
 q.on('success', function (result, job) {
   console.log('job finished processing:', job.toString().replace(/\n/g, ''))

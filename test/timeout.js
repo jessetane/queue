@@ -70,6 +70,32 @@ tape('job timeout', function (t) {
   q.start()
 })
 
+tape('job-based opt-out of timeout', function (t) {
+  t.plan(1)
+
+  var timeouts = 0
+  var q = queue({ timeout: 5 })
+  function wontTimeout (cb) {
+    setTimeout(cb, 8)
+  }
+
+  wontTimeout.timeout = null
+
+  q.on('timeout', function (next) {
+    t.fail('Job should not have timed-out')
+    timeouts++
+    next()
+  })
+
+  q.on('end', function () {
+    t.equal(timeouts, 0)
+  })
+
+  q.push(wontTimeout)
+
+  q.start()
+})
+
 tape('timeout auto-continue', function (t) {
   t.plan(3)
 
