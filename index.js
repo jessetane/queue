@@ -46,6 +46,12 @@ Queue.prototype.reverse = function () {
   return this
 }
 
+Queue.prototype.pushImmediate = function () {
+  Array.prototype.unshift.apply(this.jobs, arguments)
+  this.start(null, true)
+  return this
+}
+
 var arrayAddMethods = [
   'push',
   'unshift',
@@ -75,8 +81,10 @@ Queue.prototype.start = function (cb) {
 
   this.running = true
 
-  if (this.pending >= this.concurrency) {
-    return
+  if (!startImmediate) {
+    if (this.pending >= this.concurrency) {
+      return
+    }
   }
 
   if (this.jobs.length === 0) {
