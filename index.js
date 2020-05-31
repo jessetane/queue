@@ -74,7 +74,7 @@ Object.defineProperty(Queue.prototype, 'length', {
   }
 })
 
-Queue.prototype.start = function (cb) {
+Queue.prototype.start = function (cb, startImmediate) {
   if (cb) {
     callOnErrorOrEnd.call(this, cb)
   }
