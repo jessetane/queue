@@ -124,14 +124,21 @@ Queue.prototype.start = function (cb) {
   }
 
   if (timeout) {
-    timeoutId = setTimeout(function () {
-      didTimeout = true
-      if (self.listeners('timeout').length > 0) {
-        self.emit('timeout', next, job)
-      } else {
-        next()
-      }
-    }, timeout)
+    function resetTimeout() {
+      delete self.timers[timeoutId]
+      clearTimeout(timeoutId)
+
+      return setTimeout(function () {
+        didTimeout = true
+        if (self.listeners('timeout').length > 0) {
+          self.emit('timeout', next, job, resetTimeout)
+        } else {
+          next()
+        }
+      }, timeout)
+    }
+
+    timeoutId = resetTimeout()
     this.timers[timeoutId] = timeoutId
   }
 
