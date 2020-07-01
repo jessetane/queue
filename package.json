@@ -16,9 +16,6 @@
     "index.js",
     "index.d.ts"
   ],
-  "dependencies": {
-    "inherits": "~2.0.3"
-  },
   "devDependencies": {
     "@types/node": "*",
     "browserify": "^16.2.3",

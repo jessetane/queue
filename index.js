@@ -1,27 +1,27 @@
-var inherits = require('inherits')
 var EventEmitter = require('events').EventEmitter
 
-module.exports = Queue
-module.exports.default = Queue
-
-function Queue (options) {
-  if (!(this instanceof Queue)) {
-    return new Queue(options)
-  }
-
-  EventEmitter.call(this)
-  options = options || {}
-  this.concurrency = options.concurrency || Infinity
-  this.timeout = options.timeout || 0
-  this.autostart = options.autostart || false
-  this.results = options.results || null
-  this.pending = 0
-  this.session = 0
-  this.running = false
-  this.jobs = []
-  this.timers = {}
+function queue (options) {
+  return new Queue(options)
 }
-inherits(Queue, EventEmitter)
+
+module.exports = queue
+module.exports.default = queue
+
+class Queue extends EventEmitter {
+  constructor (options) {
+    super()
+    options = options || {}
+    this.concurrency = options.concurrency || Infinity
+    this.timeout = options.timeout || 0
+    this.autostart = options.autostart || false
+    this.results = options.results || null
+    this.pending = 0
+    this.session = 0
+    this.running = false
+    this.jobs = []
+    this.timers = {}
+  }
+}
 
 var arrayMethods = [
   'pop',
