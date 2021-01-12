@@ -27,14 +27,14 @@ tape('concurrent', function (t) {
     setTimeout(function () {
       actual.push('three')
       cb()
-    }, 30)
+    }, 50)
   })
 
   q.push(function (cb) {
     setTimeout(function () {
       actual.push('four')
       cb()
-    }, 10)
+    }, 20)
   })
 
   q.push(function (cb) {
