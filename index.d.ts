@@ -160,7 +160,7 @@ declare const Queue: QueueConstructor;
 export default Queue;
 
 export interface QueueWorker {
-    (callback?: QueueWorkerCallback): void;
+    (callback: QueueWorkerCallback): void;
 
     /**
      * Override queue timeout.
