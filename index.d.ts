@@ -153,6 +153,7 @@ interface Queue extends EventEmitter {
 interface QueueConstructor {
     (options?: Options): Queue;
     new (options?: Options): Queue;
+    prototype: Queue;
 }
 
 declare const Queue: QueueConstructor;
