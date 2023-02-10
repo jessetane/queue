@@ -1,27 +1,26 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('stop-sync', function (t) {
+tap('stop-sync', (t) => {
   t.plan(2)
+  const q = new Queue({ concurrency: 1 })
+  let n = 0
 
-  var q = queue({ concurrency: 1 })
-  var n = 0
-
-  q.push(function (cb) {
+  q.push((cb) => {
     n++
     q.stop()
     cb()
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     n++
     cb()
   })
 
   q.start()
 
-  setTimeout(function () {
+  setTimeout(() => {
     t.equal(q.length, 1)
     t.equal(n, 1)
-  })
+  }, 0)
 })

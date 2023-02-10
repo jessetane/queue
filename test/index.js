@@ -1,15 +1,15 @@
-require('./synchronous')
-require('./concurrent')
-require('./timeout')
-require('./length')
-require('./start')
-require('./stop')
-require('./end')
-require('./error-sync')
-require('./error-async')
-require('./error-promise')
-require('./resume')
-require('./autostart')
-require('./array-methods')
-require('./promises')
-require('./results')
+import './synchronous.js'
+import './concurrent.js'
+import './timeout.js'
+import './length.js'
+import './start.js'
+import './stop.js'
+import './end.js'
+import './error-sync.js'
+import './error-async.js'
+import './error-promise.js'
+import './resume.js'
+import './autostart.js'
+import './array-methods.js'
+import './promises.js'
+import'./results.js'

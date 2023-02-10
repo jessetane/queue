@@ -1,57 +1,55 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('concurrent', function (t) {
+tap('concurrent', (t) => {
   t.plan(6)
-
-  var actual = []
-  var q = queue()
+  const actual = []
+  const q = new Queue()
   q.concurrency = 2
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       actual.push('two')
       cb()
     }, 20)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       actual.push('one')
       cb()
     }, 0)
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     q.concurrency = 1
-    setTimeout(function () {
+    setTimeout(() => {
       actual.push('three')
       cb()
     }, 30)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       actual.push('four')
       cb()
     }, 10)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       actual.push('five')
       cb()
     }, 0)
   })
 
-  q.start(function () {
-    var expected = [ 'one', 'two', 'three', 'four', 'five' ]
+  q.start(() => {
+    const expected = ['one', 'two', 'three', 'four', 'five']
     t.equal(actual.length, expected.length)
 
-    for (var i in actual) {
-      var a = actual[i]
-      var e = expected[i]
+    actual.forEach((a, i) => {
+      const e = expected[i]
       t.equal(a, e)
-    }
+    })
   })
 })

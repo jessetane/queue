@@ -1,34 +1,33 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('synchronous', function (t) {
+tap('synchronous', (t) => {
   t.plan(4)
 
-  var actual = []
-  var q = queue({ concurrency: 1 })
+  const actual = []
+  const q = new Queue({ concurrency: 1 })
 
-  q.on('end', function () {
-    var expected = [ 'one', 'two', 'three' ]
+  q.on('end', () => {
+    const expected = ['one', 'two', 'three']
     t.equal(actual.length, expected.length)
 
-    for (var i in actual) {
-      var a = actual[i]
-      var e = expected[i]
+    actual.forEach((a, i) => {
+      const e = expected[i]
       t.equal(a, e)
-    }
+    })
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     actual.push('three')
     cb()
   })
 
-  q.unshift(function (cb) {
+  q.unshift((cb) => {
     actual.push('one')
     cb()
   })
 
-  q.splice(1, 0, function (cb) {
+  q.splice(1, 0, (cb) => {
     actual.push('two')
     cb()
   })

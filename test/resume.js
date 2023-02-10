@@ -1,16 +1,15 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('resume', function (t) {
+tap('resume', (t) => {
   t.plan(16)
+  const q = new Queue({ concurrency: 2 })
 
-  var q = queue({ concurrency: 2 })
+  let jobsToSet = 16
 
-  var jobsToSet = 16
-
-  while (jobsToSet--) {
-    q.push(function (cb) {
-      setTimeout(function () {
+  while (jobsToSet-- !== 0) {
+    q.push((cb) => {
+      setTimeout(() => {
         t.ok(q)
         cb()
       }, 10)

@@ -3,4 +3,3 @@
 node_modules
 coverage
 .vscode
-test/bundle.js

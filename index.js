@@ -1,195 +1,197 @@
-var inherits = require('inherits')
-var EventEmitter = require('events').EventEmitter
+import { EventEmitter } from 'events';
 
-module.exports = Queue
-module.exports.default = Queue
+const has = Object.prototype.hasOwnProperty
 
-function Queue (options) {
-  if (!(this instanceof Queue)) {
-    return new Queue(options)
+export default class Queue extends EventEmitter {
+  constructor (options = {}) {
+    super()
+    const { concurrency = Infinity, timeout = 0, autostart = false, results = null } = options
+
+    this.concurrency = concurrency
+    this.timeout = timeout
+    this.autostart = autostart
+    this.results = results
+    this.pending = 0
+    this.session = 0
+    this.running = false
+    this.jobs = []
+    this.timers = []
   }
 
-  EventEmitter.call(this)
-  options = options || {}
-  this.concurrency = options.concurrency || Infinity
-  this.timeout = options.timeout || 0
-  this.autostart = options.autostart || false
-  this.results = options.results || null
-  this.pending = 0
-  this.session = 0
-  this.running = false
-  this.jobs = []
-  this.timers = {}
-}
-inherits(Queue, EventEmitter)
-
-var arrayMethods = [
-  'pop',
-  'shift',
-  'indexOf',
-  'lastIndexOf'
-]
-
-arrayMethods.forEach(function (method) {
-  Queue.prototype[method] = function () {
-    return Array.prototype[method].apply(this.jobs, arguments)
+  pop () {
+    return this.jobs.pop()
   }
-})
 
-Queue.prototype.slice = function (begin, end) {
-  this.jobs = this.jobs.slice(begin, end)
-  return this
-}
+  shift () {
+    return this.jobs.shift()
+  }
 
-Queue.prototype.reverse = function () {
-  this.jobs.reverse()
-  return this
-}
+  indexOf (searchElement, fromIndex) {
+    return this.jobs.indexOf(searchElement, fromIndex)
+  }
 
-var arrayAddMethods = [
-  'push',
-  'unshift',
-  'splice'
-]
+  lastIndexOf (searchElement, fromIndex) {
+    if (fromIndex !== undefined) { return this.jobs.lastIndexOf(searchElement, fromIndex) }
+    return this.jobs.lastIndexOf(searchElement)
+  }
 
-arrayAddMethods.forEach(function (method) {
-  Queue.prototype[method] = function () {
-    var methodResult = Array.prototype[method].apply(this.jobs, arguments)
+  slice (start, end) {
+    this.jobs = this.jobs.slice(start, end)
+    return this
+  }
+
+  reverse () {
+    this.jobs.reverse()
+    return this
+  }
+
+  push (...workers) {
+    const methodResult = this.jobs.push(...workers)
     if (this.autostart) {
       this.start()
     }
     return methodResult
   }
-})
 
-Object.defineProperty(Queue.prototype, 'length', {
-  get: function () {
+  unshift (...workers) {
+    const methodResult = this.jobs.unshift(...workers)
+    if (this.autostart) {
+      this.start()
+    }
+    return methodResult
+  }
+
+  splice (start, deleteCount, ...workers) {
+    this.jobs.splice(start, deleteCount, ...workers)
+    if (this.autostart) {
+      this.start()
+    }
+    return this
+  }
+
+  get length () {
     return this.pending + this.jobs.length
   }
-})
 
-Queue.prototype.start = function (cb) {
-  if (cb) {
-    callOnErrorOrEnd.call(this, cb)
-  }
-
-  this.running = true
-
-  if (this.pending >= this.concurrency) {
-    return
-  }
-
-  if (this.jobs.length === 0) {
-    if (this.pending === 0) {
-      done.call(this)
+  start (callback) {
+    if (callback) {
+      this.callOnErrorOrEnd(callback)
     }
-    return
-  }
 
-  var self = this
-  var job = this.jobs.shift()
-  var once = true
-  var session = this.session
-  var timeoutId = null
-  var didTimeout = false
-  var resultIndex = null
-  var timeout = job.hasOwnProperty('timeout') ? job.timeout : this.timeout
+    this.running = true
 
-  function next (err, result) {
-    if (once && self.session === session) {
-      once = false
-      self.pending--
-      if (timeoutId !== null) {
-        delete self.timers[timeoutId]
-        clearTimeout(timeoutId)
+    if (this.pending >= this.concurrency) {
+      return
+    }
+
+    if (this.jobs.length === 0) {
+      if (this.pending === 0) {
+        this.done()
       }
+      return
+    }
 
-      if (err) {
-        self.emit('error', err, job)
-      } else if (didTimeout === false) {
-        if (resultIndex !== null) {
-          self.results[resultIndex] = Array.prototype.slice.call(arguments, 1)
+    const job = this.jobs.shift()
+    const session = this.session
+    const timeout = (job !== undefined) && has.call(job, 'timeout') ? job.timeout : this.timeout
+    let once = true
+    let timeoutId = null
+    let didTimeout = false
+    let resultIndex = null
+
+    const next = (err, ...result) => {
+      if (once && this.session === session) {
+        once = false
+        this.pending--
+        if (timeoutId !== null) {
+          this.timers = this.timers.filter((tID) => tID !== timeoutId)
+          clearTimeout(timeoutId)
         }
-        self.emit('success', result, job)
-      }
 
-      if (self.session === session) {
-        if (self.pending === 0 && self.jobs.length === 0) {
-          done.call(self)
-        } else if (self.running) {
-          self.start()
+        if (err) {
+          this.emit('error', err, job);
+        } else if (!didTimeout) {
+          if (resultIndex !== null && this.results !== null) {
+            this.results[resultIndex] = [...result]
+          }
+          this.emit('success', result, job)
+        }
+
+        if (this.session === session) {
+          if (this.pending === 0 && this.jobs.length === 0) {
+            this.done()
+          } else if (this.running) {
+            this.start()
+          }
         }
       }
     }
-  }
 
-  if (timeout) {
-    timeoutId = setTimeout(function () {
-      didTimeout = true
-      if (self.listeners('timeout').length > 0) {
-        self.emit('timeout', next, job)
-      } else {
+    if (timeout) {
+      timeoutId = setTimeout(() => {
+        didTimeout = true
+        this.emit('timeout', next, job)
         next()
-      }
-    }, timeout)
-    this.timers[timeoutId] = timeoutId
+      }, timeout)
+      this.timers.push(timeoutId)
+    }
+
+    if (this.results != null) {
+      resultIndex = this.results.length
+      this.results[resultIndex] = null
+    }
+
+    this.pending++
+    this.emit('start', job)
+
+    const promise = job(next)
+
+    if (promise !== undefined && typeof promise.then === 'function') {
+      promise.then(function (result) {
+        return next(undefined, result)
+      }).catch(function (err) {
+        return next(err || true)
+      })
+    }
+
+    if (this.running && this.jobs.length > 0) {
+      this.start()
+    }
   }
 
-  if (this.results) {
-    resultIndex = this.results.length
-    this.results[resultIndex] = null
+  stop () {
+    this.running = false
   }
 
-  this.pending++
-  self.emit('start', job)
-  var promise = job(next)
-  if (promise && promise.then && typeof promise.then === 'function') {
-    promise.then(function (result) {
-      return next(null, result)
-    }).catch(function (err) {
-      return next(err || true)
+  end (error) {
+    this.clearTimers()
+    this.jobs.length = 0
+    this.pending = 0
+    this.done(error)
+  }
+
+  clearTimers () {
+    this.timers.forEach((timer) => {
+      clearTimeout(timer)
     })
+
+    this.timers = []
   }
 
-  if (this.running && this.jobs.length > 0) {
-    this.start()
+  callOnErrorOrEnd (cb) {
+    const onerror = (err) => this.end(err)
+    const onend = (err) => {
+      this.removeListener('error', onerror)
+      this.removeListener('end', onend)
+      cb(err, this.results)
+    }
+    this.addListener('error', onerror)
+    this.addListener('end', onend)
   }
-}
 
-Queue.prototype.stop = function () {
-  this.running = false
-}
-
-Queue.prototype.end = function (err) {
-  clearTimers.call(this)
-  this.jobs.length = 0
-  this.pending = 0
-  done.call(this, err)
-}
-
-function clearTimers () {
-  for (var key in this.timers) {
-    var timeoutId = this.timers[key]
-    delete this.timers[key]
-    clearTimeout(timeoutId)
+  done (err) {
+    this.session++
+    this.running = false
+    this.emit('end', err)
   }
-}
-
-function callOnErrorOrEnd (cb) {
-  var self = this
-  this.on('error', onerror)
-  this.on('end', onend)
-
-  function onerror (err) { self.end(err) }
-  function onend (err) {
-    self.removeListener('error', onerror)
-    self.removeListener('end', onend)
-    cb(err, this.results)
-  }
-}
-
-function done (err) {
-  this.session++
-  this.running = false
-  this.emit('end', err)
 }

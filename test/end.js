@@ -1,20 +1,19 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('end', function (t) {
+tap('end', (t) => {
   t.plan(3)
+  const q = new Queue()
 
-  var q = queue()
-
-  q.push(function (cb) {
+  q.push((cb) => {
     setTimeout(cb, 0)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       t.equal(q.length, 2)
       q.end(new Error('fake error'))
-      setTimeout(function () {
+      setTimeout(() => {
         // session has changed so this should be a nop
         cb()
 
@@ -24,15 +23,15 @@ tape('end', function (t) {
     }, 10)
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     setTimeout(cb, 30)
   })
 
-  q.start(function (err) {
+  q.start((err) => {
     t.equal(q.length, 0)
 
-    if (err) {
-      q.push(function () {})
+    if (err !== undefined) {
+      q.push(() => {})
     }
   })
 })

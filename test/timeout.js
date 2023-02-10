@@ -1,38 +1,36 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('timeout', function (t) {
+tap('timeout', (t) => {
   t.plan(4)
+  const actual = []
+  const q = new Queue({ timeout: 10 })
 
-  var actual = []
-  var q = queue({ timeout: 10 })
-
-  q.on('timeout', function (next) {
+  q.on('timeout', (next) => {
     t.ok(q)
     next()
   })
 
-  q.on('end', function () {
-    var expected = [ 'two', 'three' ]
+  q.on('end', () => {
+    const expected = ['two', 'three']
     t.equal(actual.length, expected.length)
 
-    for (var i in actual) {
-      var a = actual[i]
-      var e = expected[i]
+    actual.forEach((a, i) => {
+      const e = expected[i]
       t.equal(a, e)
-    }
+    })
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     // forget to call cb
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     actual.push('two')
     cb()
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     actual.push('three')
     cb()
   })
@@ -40,27 +38,26 @@ tape('timeout', function (t) {
   q.start()
 })
 
-tape('job timeout', function (t) {
+tap('job timeout', (t) => {
   t.plan(2)
-
-  var timeouts = 0
-  var q = queue({ timeout: 5 })
-  function willTimeout (cb) {
+  const q = new Queue({ timeout: 5 })
+  let timeouts = 0
+  const willTimeout = (cb) => {
     setTimeout(cb, 8)
   }
-  function wontTimeout (cb) {
+  const wontTimeout = (cb) => {
     setTimeout(cb, 8)
   }
 
   wontTimeout.timeout = 10
 
-  q.on('timeout', function (next) {
+  q.on('timeout', (next) => {
     t.ok(q)
     timeouts++
     next()
   })
 
-  q.on('end', function () {
+  q.on('end', () => {
     t.equal(timeouts, 1)
   })
 
@@ -70,24 +67,23 @@ tape('job timeout', function (t) {
   q.start()
 })
 
-tape('job-based opt-out of timeout', function (t) {
+tap('job-based opt-out of timeout', (t) => {
   t.plan(1)
-
-  var timeouts = 0
-  var q = queue({ timeout: 5 })
-  function wontTimeout (cb) {
+  const q = new Queue({ timeout: 5 })
+  let timeouts = 0
+  const wontTimeout = (cb) => {
     setTimeout(cb, 8)
   }
 
-  wontTimeout.timeout = null
+  wontTimeout.timeout = undefined
 
-  q.on('timeout', function (next) {
+  q.on('timeout', (next) => {
     t.fail('Job should not have timed-out')
     timeouts++
     next()
   })
 
-  q.on('end', function () {
+  q.on('end',  () => {
     t.equal(timeouts, 0)
   })
 
@@ -96,21 +92,19 @@ tape('job-based opt-out of timeout', function (t) {
   q.start()
 })
 
-tape('timeout auto-continue', function (t) {
+tap('timeout auto-continue',  (t) => {
   t.plan(3)
+  const actual = []
+  const q = new Queue({ timeout: 10 })
 
-  var actual = []
-  var q = queue({ timeout: 10 })
-
-  q.on('end', function () {
-    var expected = [ 'two', 'three' ]
+  q.on('end',  () => {
+    const expected = ['two', 'three']
     t.equal(actual.length, expected.length)
 
-    for (var i in actual) {
-      var a = actual[i]
-      var e = expected[i]
+    actual.forEach((a, i) => {
+      const e = expected[i]
       t.equal(a, e)
-    }
+    })
   })
 
   q.push(function (cb) {
@@ -130,10 +124,9 @@ tape('timeout auto-continue', function (t) {
   q.start()
 })
 
-tape('unref timeouts', function (t) {
+tap('unref timeouts',  (t) => {
   t.plan(3)
-
-  var q = queue({ timeout: 99999 })
+  const q = new Queue({ timeout: 99999 })
 
   q.push(function (cb) {
     t.pass()
@@ -144,7 +137,7 @@ tape('unref timeouts', function (t) {
 
   q.stop()
 
-  setTimeout(function () {
+  setTimeout(() => {
     t.equal(q.pending, 1)
 
     q.end()
