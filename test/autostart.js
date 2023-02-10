@@ -1,35 +1,34 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('autostart', function (t) {
+tap('autostart', (t) => {
   t.plan(9)
+  const expected = ['one', 'two', 'three']
+  const actual = []
+  const q = new Queue({ autostart: true })
+  let numEndHandlers = 0
 
-  var expected = [ 'one', 'two', 'three' ]
-  var actual = []
-  var q = queue({ autostart: true })
-  var numEndHandlers = 0
-
-  q.on('end', function () {
+  q.on('end', () => {
     numEndHandlers++
     t.equal(actual.length, numEndHandlers)
 
-    for (var i in actual) {
+    actual.forEach((a, i) => {
       t.equal(actual[i], expected[i])
-    }
+    })
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     actual.push('one')
     cb()
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     actual.push('two')
     cb()
   })
 
-  setTimeout(function () {
-    q.push(function (cb) {
+  setTimeout(() => {
+    q.push((cb) => {
       actual.push('three')
       cb()
     })

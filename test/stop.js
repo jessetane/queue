@@ -1,38 +1,37 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('stop', function (t) {
+tap('stop', (t) => {
   t.plan(6)
+  const q = new Queue({ concurrency: 1 })
 
-  var q = queue({ concurrency: 1 })
-
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       t.equal(q.running, false)
-      cb()
+      if (cb !== undefined) cb()
 
       // restart
-      setTimeout(function () {
-        q.start(function () {
+      setTimeout(() => {
+        q.start(() => {
           t.ok(q)
         })
       }, 10)
     }, 10)
   })
 
-  q.push(function (cb) {
+  q.push((cb) => {
     t.equal(q.running, true)
     cb()
   })
 
   // start
-  q.start(function (err) {
-    t.error(err)
+  q.start((err) => {
+    t.notOk(err)
     t.equal(q.running, false)
   })
 
   // but stop the q before the first job has finished
-  setTimeout(function () {
+  setTimeout(() => {
     t.equal(q.length, 2)
     q.stop()
   }, 0)

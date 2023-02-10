@@ -13,31 +13,28 @@
     "concurrent"
   ],
   "files": [
-    "index.js",
-    "index.d.ts"
+    "index.js"
   ],
-  "dependencies": {
-    "inherits": "~2.0.3"
-  },
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "devDependencies": {
-    "@types/node": "*",
-    "browserify": "^16.2.3",
-    "coveralls": "^3.0.3",
-    "istanbul": "^0.4.5",
-    "standard": "^12.0.1",
-    "tape": "^4.10.1",
-    "tsd-check": "*",
-    "typescript": "^3.3.3333"
+    "c8": "^7.12.0",
+    "http-server": "^14.1.1",
+    "tap-esm": "^3.0.0"
   },
   "scripts": {
-    "test": "standard && node test && tsd-check",
-    "test-browser": "standard && browserify test/index.js > test/bundle.js && echo \"open test/index.html in your browser\"",
-    "travis": "standard && istanbul cover test --report lcovonly && cat coverage/lcov.info | coveralls",
-    "travis-ts": "tsc test/typescript.ts --m System --out /dev/null && echo 'TypeScript compilation passed.'",
-    "example": "node example",
-    "lint": "standard"
+    "test": "node test",
+    "coverage": "c8 npm run test",
+    "dev": "http-server ./ -s -c-1 -p 7357"
   },
   "repository": "https://github.com/jessetane/queue.git",
-  "author": "Jesse Tane <jesse.tane@gmail.com>",
-  "license": "MIT"
+  "contributors": [
+    "Jesse Tane <jesse.tane@gmail.com>",
+    "Maksim Lavrenyuk <maksim.lavrenyuk@outlook.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "events": "^3.3.0"
+  }
 }

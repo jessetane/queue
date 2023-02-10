@@ -1,29 +1,28 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('length', function (t) {
+tap('length', (t) => {
   t.plan(12)
+  const q = new Queue()
 
-  var q = queue()
-
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       t.equal(q.length, 3)
       cb()
       t.equal(q.length, 2)
     }, 0)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       t.equal(q.length, 2)
       cb()
       t.equal(q.length, 1)
     }, 10)
   })
 
-  q.push(function (cb) {
-    setTimeout(function () {
+  q.push((cb) => {
+    setTimeout(() => {
       t.equal(q.length, 1)
       cb()
       t.equal(q.length, 0)
@@ -33,7 +32,7 @@ tape('length', function (t) {
   t.equal(q.pending, 0)
   t.equal(q.length, 3)
 
-  q.start(function () {
+  q.start(() => {
     t.equal(q.pending, 0)
     t.equal(q.length, 0)
   })

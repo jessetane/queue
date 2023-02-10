@@ -1,25 +1,25 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('start', function (t) {
+tap('start', (t) => {
   t.plan(4)
 
-  var q = queue()
-  function work (cb) {
+  const q = new Queue()
+  const work = (cb) => {
     t.ok(q)
     cb()
   }
 
-  q.on('start', function (job) {
-    t.equals(job, work)
+  q.on('start', (job) => {
+    t.equal(job, work)
   })
 
   q.push(work)
 
-  q.start(function () {
+  q.start(() => {
     t.ok(q)
 
-    q.start(function () {
+    q.start(() => {
       t.ok(q)
     })
   })

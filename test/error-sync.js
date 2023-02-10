@@ -1,16 +1,16 @@
-var tape = require('tape')
-var queue = require('../')
+import tap from 'tap-esm';
+import Queue from '../index.js'
 
-tape('error', function (t) {
+tap('error', (t) => {
   t.plan(2)
 
-  var q = queue()
+  const q = new Queue()
 
-  q.push(function (cb) {
+  q.push((cb) => {
     cb(new Error('something broke'))
   })
 
-  q.start(function (err) {
+  q.start((err) => {
     t.equal(err.message, 'something broke')
     t.equal(q.length, 0)
   })
