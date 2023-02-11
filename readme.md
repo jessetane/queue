@@ -14,11 +14,11 @@ Asynchronous function queue with adjustable concurrency.
 This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback or return a promise) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
 ## Example
-`npm run example`
+`npm run dev`
 ``` javascript
-var queue = require('../')
+import Queue from 'queue'
 
-var q = queue({ results: [] })
+const q = new Queue({ results: [] })
 
 // add jobs using the familiar Array API
 q.push(function (cb) {
@@ -59,9 +59,9 @@ q.splice(2, 0, function (cb) {
 // take too long or forget to execute a callback
 q.timeout = 100
 
-q.on('timeout', function (next, job) {
-  console.log('job timed out:', job.toString().replace(/\n/g, ''))
-  next()
+q.addEventListener('timeout', function (e) {
+  console.log('job timed out:', e.detail.job.toString().replace(/\n/g, ''))
+  e.detail.next()
 })
 
 q.push(function (cb) {
@@ -99,9 +99,9 @@ superSlowJob.timeout = null
 q.push(superSlowJob)
 
 // get notified when jobs complete
-q.on('success', function (result, job) {
-  console.log('job finished processing:', job.toString().replace(/\n/g, ''))
-  console.log('The result is:', result)
+q.addEventListener('success', function (e) {
+  console.log('job finished processing:', e.detail.toString().replace(/\n/g, ''))
+  console.log('The result is:', e.detail.result)
 })
 
 // begin processing, get notified on end / failure
@@ -113,19 +113,25 @@ q.start(function (err) {
 ```
 
 ## Install
-`npm install queue`
 
-_Note_: You may need to install the [`events`](https://github.com/Gozala/events) dependency if
-your environment does not have it by default (eg. browser, react-native).
+```
+npm install queue
+
+yarn add queue
+```
 
 ## Test
-`npm test`
-`npm run test-browser`
+
+```
+npm test
+
+npm run dev // for testing in a browser
+```
 
 ## API
 
-### `var q = queue([opts])`
-Constructor. `opts` may contain inital values for:
+### `const q = new Queue([opts])`
+Constructor. `opts` may contain initial values for:
 * `q.concurrency`
 * `q.timeout`
 * `q.autostart`
@@ -171,19 +177,19 @@ Jobs pending + jobs to process (readonly).
 
 ## Events
 
-### `q.emit('start', job)`
+### `q.dispatchEvent(new QueueEvent('start', { job }))`
 Immediately before a job begins to execute.
 
-### `q.emit('success', result, job)`
+### `q.dispatchEvent(new QueueEvent('success', { result: [...result], job }))`
 After a job executes its callback.
 
-### `q.emit('error', err, job)`
+### `q.dispatchEvent(new QueueEvent('error', { err, job }))`
 After a job passes an error to its callback.
 
-### `q.emit('timeout', continue, job)`
+### `q.dispatchEvent(new QueueEvent('timeout', { next, job }))`
 After `q.timeout` milliseconds have elapsed and a job has not executed its callback.
 
-### `q.emit('end'[, err])`
+### `q.dispatchEvent(new QueueEvent('end', { err }))`
 After all jobs have been processed
 
 ## Releases
