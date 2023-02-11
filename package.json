@@ -33,8 +33,5 @@
     "Jesse Tane <jesse.tane@gmail.com>",
     "Maksim Lavrenyuk <maksim.lavrenyuk@outlook.com>"
   ],
-  "license": "MIT",
-  "dependencies": {
-    "events": "^3.3.0"
-  }
+  "license": "MIT"
 }

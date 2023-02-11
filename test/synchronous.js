@@ -7,7 +7,7 @@ tap('synchronous', (t) => {
   const actual = []
   const q = new Queue({ concurrency: 1 })
 
-  q.on('end', () => {
+  q.addEventListener('end', () => {
     const expected = ['one', 'two', 'three']
     t.equal(actual.length, expected.length)
 

@@ -10,8 +10,8 @@ tap('start', (t) => {
     cb()
   }
 
-  q.on('start', (job) => {
-    t.equal(job, work)
+  q.addEventListener('start', (event) => {
+    t.equal(event.detail.job, work)
   })
 
   q.push(work)
