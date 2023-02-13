@@ -5,11 +5,11 @@ tap('error-promise with error', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.on('error', (err) => {
-    q.end(err)
+  q.addEventListener('error', (event) => {
+    q.end(event.detail.error)
   })
-  q.on('end', (err) => {
-    t.equal(err.message, 'something broke')
+  q.addEventListener('end', (event) => {
+    t.equal(event.detail.error.message, 'something broke')
     t.equal(q.length, 0)
   })
 
@@ -40,11 +40,11 @@ tap('error-promise with empty error', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.on('error', (err) => {
-    q.end(err)
+  q.addEventListener('error', (event) => {
+    q.end(event.detail.error)
   })
-  q.on('end',  (err) => {
-    t.equal(err, true)
+  q.addEventListener('end',  (event) => {
+    t.equal(event.detail.error, true)
     t.equal(q.length, 0)
   })
 

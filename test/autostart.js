@@ -8,7 +8,7 @@ tap('autostart', (t) => {
   const q = new Queue({ autostart: true })
   let numEndHandlers = 0
 
-  q.on('end', () => {
+  q.addEventListener('end', () => {
     numEndHandlers++
     t.equal(actual.length, numEndHandlers)
 

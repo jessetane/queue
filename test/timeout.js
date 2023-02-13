@@ -6,12 +6,12 @@ tap('timeout', (t) => {
   const actual = []
   const q = new Queue({ timeout: 10 })
 
-  q.on('timeout', (next) => {
+  q.addEventListener('timeout', (event) => {
     t.ok(q)
-    next()
+    event.detail.next()
   })
 
-  q.on('end', () => {
+  q.addEventListener('end', () => {
     const expected = ['two', 'three']
     t.equal(actual.length, expected.length)
 
@@ -51,13 +51,13 @@ tap('job timeout', (t) => {
 
   wontTimeout.timeout = 10
 
-  q.on('timeout', (next) => {
+  q.addEventListener('timeout', (event) => {
     t.ok(q)
     timeouts++
-    next()
+    event.detail.next()
   })
 
-  q.on('end', () => {
+  q.addEventListener('end', () => {
     t.equal(timeouts, 1)
   })
 
@@ -77,13 +77,13 @@ tap('job-based opt-out of timeout', (t) => {
 
   wontTimeout.timeout = undefined
 
-  q.on('timeout', (next) => {
+  q.addEventListener('timeout', (event) => {
     t.fail('Job should not have timed-out')
     timeouts++
-    next()
+    event.detail.next()
   })
 
-  q.on('end',  () => {
+  q.addEventListener('end',  () => {
     t.equal(timeouts, 0)
   })
 
@@ -97,7 +97,7 @@ tap('timeout auto-continue',  (t) => {
   const actual = []
   const q = new Queue({ timeout: 10 })
 
-  q.on('end',  () => {
+  q.addEventListener('end',  () => {
     const expected = ['two', 'three']
     t.equal(actual.length, expected.length)
 

@@ -1,8 +1,19 @@
-import { EventEmitter } from 'events';
-
 const has = Object.prototype.hasOwnProperty
 
-export default class Queue extends EventEmitter {
+/**
+ * Since CustomEvent is only supported in nodejs since version 19,
+ * you have to create your own class instead of using CustomEvent
+ * @see https://github.com/nodejs/node/issues/40678
+ * */
+export class QueueEvent extends Event {
+  constructor (name, detail) {
+    super(name)
+    this.detail = detail
+  }
+}
+
+
+export default class Queue extends EventTarget {
   constructor (options = {}) {
     super()
     const { concurrency = Infinity, timeout = 0, autostart = false, results = null } = options
@@ -99,7 +110,7 @@ export default class Queue extends EventEmitter {
     let didTimeout = false
     let resultIndex = null
 
-    const next = (err, ...result) => {
+    const next = (error, ...result) => {
       if (once && this.session === session) {
         once = false
         this.pending--
@@ -108,13 +119,13 @@ export default class Queue extends EventEmitter {
           clearTimeout(timeoutId)
         }
 
-        if (err) {
-          this.emit('error', err, job);
+        if (error) {
+          this.dispatchEvent(new QueueEvent('error', { error, job }))
         } else if (!didTimeout) {
           if (resultIndex !== null && this.results !== null) {
             this.results[resultIndex] = [...result]
           }
-          this.emit('success', result, job)
+          this.dispatchEvent(new QueueEvent('success', { result: [...result], job }))
         }
 
         if (this.session === session) {
@@ -130,7 +141,7 @@ export default class Queue extends EventEmitter {
     if (timeout) {
       timeoutId = setTimeout(() => {
         didTimeout = true
-        this.emit('timeout', next, job)
+        this.dispatchEvent(new QueueEvent('timeout', { next, job }))
         next()
       }, timeout)
       this.timers.push(timeoutId)
@@ -142,7 +153,7 @@ export default class Queue extends EventEmitter {
     }
 
     this.pending++
-    this.emit('start', job)
+    this.dispatchEvent(new QueueEvent('start', { job }))
 
     const promise = job(next)
 
@@ -179,19 +190,19 @@ export default class Queue extends EventEmitter {
   }
 
   callOnErrorOrEnd (cb) {
-    const onerror = (err) => this.end(err)
-    const onend = (err) => {
-      this.removeListener('error', onerror)
-      this.removeListener('end', onend)
-      cb(err, this.results)
+    const onerror = (evt) => this.end(evt.detail.error)
+    const onend = (evt) => {
+      this.removeEventListener('error', onerror)
+      this.removeEventListener('end', onend)
+      cb(evt.detail.error, this.results)
     }
-    this.addListener('error', onerror)
-    this.addListener('end', onend)
+    this.addEventListener('error', onerror)
+    this.addEventListener('end', onend)
   }
 
-  done (err) {
+  done (error) {
     this.session++
     this.running = false
-    this.emit('end', err)
+    this.dispatchEvent(new QueueEvent('end', { error }))
   }
 }

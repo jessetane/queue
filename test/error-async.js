@@ -5,11 +5,11 @@ tap('error', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.on('error', (err) => {
-    q.end(err)
+  q.addEventListener('error', (event) => {
+    q.end(event.detail.error)
   })
-  q.on('end', (err) => {
-    t.equal(err.message, 'something broke') // 3
+  q.addEventListener('end', (event) => {
+    t.equal(event.detail.error.message, 'something broke') // 3
     t.equal(q.length, 0)
   })
 
