@@ -24,3 +24,22 @@ tap('start', (t) => {
     })
   })
 })
+
+tap('await start. Push the job, start() returns Promise waiting for all jobs to finish', async (t) => {
+  t.plan(1)
+  const queue = new Queue();
+  const result = [];
+  const work = (cb) => {
+    setTimeout(() => {
+      result.push(1);
+      cb();
+    }, 30)
+  }
+
+  queue.push(work);
+  await queue.start();
+  result.push(2);
+  console.log(result);
+
+  t.arrayEqual(result, [1, 2]);
+});

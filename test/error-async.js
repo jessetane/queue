@@ -26,3 +26,28 @@ tap('error-async', (t) => {
 
   q.start()
 })
+
+
+tap('error-async. start() should return a promise with error data.', async (t) => {
+  t.plan(2)
+  const q = new Queue()
+
+  q.push((cb) => {
+    setTimeout(cb, 10)
+  })
+
+  q.push((cb) => {
+    setTimeout(() => {
+      cb(new Error('something broke'))
+    }, 20)
+  })
+
+  q.push((cb) => {
+    setTimeout(cb, 30)
+  })
+
+
+  const { error } = await q.start()
+  t.equal(error.message, 'something broke') // 3
+  t.equal(q.length, 0)
+})
