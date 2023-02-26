@@ -1,13 +1,10 @@
 import tap from 'tap-esm';
 import Queue from '../index.js'
 
-tap('error', (t) => {
+tap('error-async', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.addEventListener('error', (event) => {
-    q.end(event.detail.error)
-  })
   q.addEventListener('end', (event) => {
     t.equal(event.detail.error.message, 'something broke') // 3
     t.equal(q.length, 0)

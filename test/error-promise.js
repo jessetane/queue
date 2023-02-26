@@ -5,9 +5,6 @@ tap('error-promise with error', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.addEventListener('error', (event) => {
-    q.end(event.detail.error)
-  })
   q.addEventListener('end', (event) => {
     t.equal(event.detail.error.message, 'something broke')
     t.equal(q.length, 0)
@@ -40,9 +37,6 @@ tap('error-promise with empty error', (t) => {
   t.plan(2)
   const q = new Queue()
 
-  q.addEventListener('error', (event) => {
-    q.end(event.detail.error)
-  })
   q.addEventListener('end',  (event) => {
     t.equal(event.detail.error, true)
     t.equal(q.length, 0)

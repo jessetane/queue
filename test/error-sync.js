@@ -1,7 +1,7 @@
 import tap from 'tap-esm';
 import Queue from '../index.js'
 
-tap('error', (t) => {
+tap('error-sync', (t) => {
   t.plan(2)
 
   const q = new Queue()
