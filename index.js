@@ -27,6 +27,12 @@ export default class Queue extends EventTarget {
     this.running = false
     this.jobs = []
     this.timers = []
+
+    this.addEventListener('error', this._errorHandler)
+  }
+
+  _errorHandler(evt) {
+    this.end(evt.detail.error);
   }
 
   pop () {
@@ -85,8 +91,12 @@ export default class Queue extends EventTarget {
   }
 
   start (callback) {
+    let awaiter;
+
     if (callback) {
-      this.callOnErrorOrEnd(callback)
+      this._addCallbackToEndEvent(callback)
+    } else {
+      awaiter = this._createPromiseToEndEvent();
     }
 
     this.running = true
@@ -166,8 +176,10 @@ export default class Queue extends EventTarget {
     }
 
     if (this.running && this.jobs.length > 0) {
-      this.start()
+      return this.start()
     }
+
+    return awaiter;
   }
 
   stop () {
@@ -189,15 +201,20 @@ export default class Queue extends EventTarget {
     this.timers = []
   }
 
-  callOnErrorOrEnd (cb) {
-    const onerror = (evt) => this.end(evt.detail.error)
+  _addCallbackToEndEvent (cb) {
     const onend = (evt) => {
-      this.removeEventListener('error', onerror)
       this.removeEventListener('end', onend)
       cb(evt.detail.error, this.results)
     }
-    this.addEventListener('error', onerror)
     this.addEventListener('end', onend)
+  }
+
+  _createPromiseToEndEvent() {
+    return new Promise((resolve) => {
+      this._addCallbackToEndEvent((error, results) => {
+        resolve({ error, results });
+      });
+    });
   }
 
   done (error) {
