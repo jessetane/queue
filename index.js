@@ -165,10 +165,10 @@ export default class Queue extends EventTarget {
     this.pending++
     this.dispatchEvent(new QueueEvent('start', { job }))
 
-    const promise = job(next)
+    job.promise = job(next)
 
-    if (promise !== undefined && typeof promise.then === 'function') {
-      promise.then(function (result) {
+    if (job.promise !== undefined && typeof job.promise.then === 'function') {
+      job.promise.then(function (result) {
         return next(undefined, result)
       }).catch(function (err) {
         return next(err || true)
