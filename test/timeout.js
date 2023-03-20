@@ -145,3 +145,21 @@ tap('unref timeouts',  (t) => {
     t.equal(q.pending, 0)
   }, 10)
 })
+
+tap('From the timeout event it should be possible to find out the delayed promise',  (t) => {
+  t.plan(1)
+  const q = new Queue({ timeout: 5 })
+  let promise
+
+  q.addEventListener('timeout',(event) => {
+    t.equal(event.detail.job.promise, promise)
+  })
+
+  q.push(() => {
+    promise = new Promise((resolve) => setTimeout(resolve, 10));
+
+    return promise;
+  })
+
+  q.start()
+})

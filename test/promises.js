@@ -30,3 +30,36 @@ tap('promises', (t) => {
 
   q.start()
 })
+
+tap('promise returned from the job must be set to the job.promise property', (t) => {
+  t.plan(1)
+  const q = new Queue({ concurrency: 1 })
+  let promise;
+
+  q.addEventListener('success',(event) => {
+    t.equal(event.detail.job.promise, promise)
+  })
+
+  q.push(() => {
+    promise = new Promise((resolve) => resolve());
+
+    return promise;
+  })
+
+  q.start()
+})
+
+tap('promise returned from an async job should be set to the job.promise property', (t) => {
+  t.plan(1)
+  const q = new Queue({ concurrency: 1 })
+
+  q.addEventListener('success',async (event) => {
+    const result = await event.detail.job.promise;
+
+    t.equal(result, 'result');
+  })
+
+  q.push(async () => 'result');
+
+  q.start()
+})
