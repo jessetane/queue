@@ -220,8 +220,4 @@ The latest stable release is published to [npm](http://npmjs.org/queue). Abbrevi
   * Early prototype
 
 ## License
-Copyright © 2014 Jesse Tane <jesse.tane@gmail.com>
-
-This work is free. You can redistribute it and/or modify it under the
-terms of the [MIT License](https://opensource.org/licenses/MIT).
-See LICENSE for full details.
+[MIT](https://github.com/jessetane/queue/blob/master/LICENSE)
