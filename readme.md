@@ -14,7 +14,7 @@ Asynchronous function queue with adjustable concurrency.
 This module exports a class `Queue` that implements most of the `Array` API. Pass async functions (ones that accept a callback or return a promise) to an instance's additive array methods. Processing begins when you call `q.start()`.
 
 ## Example
-`npm run dev`
+Do `npm run example` or `npm run dev` and open the example directory (and your console) to run the following program:
 ``` javascript
 import Queue from 'queue'
 
@@ -125,7 +125,7 @@ yarn add queue
 ```
 npm test
 
-npm run dev // for testing in a browser
+npm run dev // for testing in a browser, open test directory (and your console)
 ```
 
 ## API
