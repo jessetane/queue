@@ -18,7 +18,6 @@
   ],
   "typings": "index.d.ts",
   "main": "index.js",
-  "module": "index.js",
   "type": "module",
   "devDependencies": {
     "c8": "^7.12.0",
