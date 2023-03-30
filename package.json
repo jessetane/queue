@@ -18,6 +18,10 @@
   ],
   "typings": "index.d.ts",
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./*": "./*"
+  },
   "type": "module",
   "devDependencies": {
     "c8": "^7.12.0",
@@ -27,7 +31,8 @@
   "scripts": {
     "test": "node test",
     "coverage": "c8 npm run test",
-    "dev": "http-server ./ -s -c-1 -p 7357"
+    "dev": "http-server ./ -s -c-1 -p 7357",
+    "example": "node example"
   },
   "repository": "https://github.com/jessetane/queue.git",
   "contributors": [
