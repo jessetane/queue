@@ -82,6 +82,7 @@ export default class Queue extends EventTarget {
   }
 
   start (callback) {
+    if (this.running) throw new Error('already started')
     let awaiter
     if (callback) {
       this._addCallbackToEndEvent(callback)
@@ -189,9 +190,10 @@ export default class Queue extends EventTarget {
   }
 
   _createPromiseToEndEvent () {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this._addCallbackToEndEvent((error, results) => {
-        resolve({ error, results })
+        if (error) reject(error)
+        else resolve(results)
       })
     })
   }

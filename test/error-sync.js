@@ -26,7 +26,10 @@ tap('error-sync. start() should return a promise with error data.', async (t) =>
     cb(new Error('something broke'))
   })
 
-  const { error } = await q.start()
-  t.equal(error.message, 'something broke')
-  t.equal(q.length, 0)
+  try {
+    await q.start()
+  } catch (err) {
+    t.equal(err.message, 'something broke')
+    t.equal(q.length, 0)
+  }
 })

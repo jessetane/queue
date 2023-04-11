@@ -47,8 +47,12 @@ tap('results from start(). start() should return a promise with error data and r
     }, 10)
   })
 
-  const { error, results } = await q.start()
-  t.notOk(error);
+  try {
+    await q.start()
+    t.pass()
+  } catch (err) {
+    t.notOk(err)
+  }
 
   [
     ['string'],
@@ -56,6 +60,6 @@ tap('results from start(). start() should return a promise with error data and r
     [3, 2, 1],
     []
   ].forEach((expected, i) => {
-    t.arrayEqual(expected, results[i])
+    t.arrayEqual(expected, q.results[i])
   })
 });

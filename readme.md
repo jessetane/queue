@@ -136,7 +136,7 @@ Constructor. `opts` may contain initial values for:
 
 ## Instance methods
 ### `q.start([cb])`
-cb, if passed, will be called when the queue empties or when an error occurs.
+Explicitly starts processing jobs and provides feedback to the caller when the queue empties or an error occurs. If cb is not passed a promise will be returned.
 
 ### `q.stop()`
 Stops the queue. can be resumed with `q.start()`.

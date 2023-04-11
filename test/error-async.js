@@ -3,7 +3,7 @@ import Queue from '../index.js'
 
 tap('error-async', (t) => {
   t.plan(2)
-  const q = new Queue()
+  const q = new Queue({ autostart: true })
 
   q.addEventListener('end', (event) => {
     t.equal(event.detail.error.message, 'something broke') // 3
@@ -23,8 +23,6 @@ tap('error-async', (t) => {
   q.push((cb) => {
     setTimeout(cb, 30)
   })
-
-  q.start()
 })
 
 
@@ -46,8 +44,10 @@ tap('error-async. start() should return a promise with error data.', async (t) =
     setTimeout(cb, 30)
   })
 
-
-  const { error } = await q.start()
-  t.equal(error.message, 'something broke') // 3
-  t.equal(q.length, 0)
+  try {
+    await q.start()
+  } catch (err) {
+    t.equal(err.message, 'something broke') // 3
+    t.equal(q.length, 0)
+  }
 })

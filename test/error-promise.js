@@ -3,7 +3,7 @@ import Queue from '../index.js'
 
 tap('error-promise with error', (t) => {
   t.plan(2)
-  const q = new Queue()
+  const q = new Queue({ autostart: true })
 
   q.addEventListener('end', (event) => {
     t.equal(event.detail.error.message, 'something broke')
@@ -29,13 +29,11 @@ tap('error-promise with error', (t) => {
       }, 30)
     })
   })
-
-  q.start()
 })
 
 tap('error-promise with empty error', (t) => {
   t.plan(2)
-  const q = new Queue()
+  const q = new Queue({ autostart: true })
 
   q.addEventListener('end',  (event) => {
     t.equal(event.detail.error, true)
@@ -61,8 +59,6 @@ tap('error-promise with empty error', (t) => {
       }, 30)
     })
   })
-
-  q.start()
 })
 
 tap('error-promise with error. start() should return a promise with error data.', async (t) => {
@@ -89,10 +85,12 @@ tap('error-promise with error. start() should return a promise with error data.'
     })
   })
 
-  const { error } = await q.start()
-
-  t.equal(error.message, 'something broke')
-  t.equal(q.length, 0)
+  try {
+    await q.start()
+  } catch (err) {
+    t.equal(err.message, 'something broke')
+    t.equal(q.length, 0)
+  }
 })
 
 
@@ -121,8 +119,10 @@ tap('error-promise with empty error. start() should return a promise with error 
     })
   })
 
-  const { error } = await q.start()
-
-  t.equal(error, 'something broke')
-  t.equal(q.length, 0)
+  try {
+    await q.start()
+  } catch (err) {
+    t.equal(err, 'something broke')
+    t.equal(q.length, 0)
+  }
 })
