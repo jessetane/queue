@@ -61,19 +61,19 @@ export default class Queue extends EventTarget {
 
   push (...workers) {
     const methodResult = this.jobs.push(...workers)
-    if (this.autostart) this.start()
+    if (this.autostart) this._start()
     return methodResult
   }
 
   unshift (...workers) {
     const methodResult = this.jobs.unshift(...workers)
-    if (this.autostart) this.start()
+    if (this.autostart) this._start()
     return methodResult
   }
 
   splice (start, deleteCount, ...workers) {
     this.jobs.splice(start, deleteCount, ...workers)
-    if (this.autostart) this.start()
+    if (this.autostart) this._start()
     return this
   }
 
@@ -88,6 +88,11 @@ export default class Queue extends EventTarget {
     } else {
       awaiter = this._createPromiseToEndEvent()
     }
+    this._start()
+    return awaiter
+  }
+
+  _start () {
     this.running = true
     if (this.pending >= this.concurrency) {
       return
@@ -125,7 +130,7 @@ export default class Queue extends EventTarget {
           if (this.pending === 0 && this.jobs.length === 0) {
             this.done()
           } else if (this.running) {
-            this.start()
+            this._start()
           }
         }
       }
@@ -153,9 +158,8 @@ export default class Queue extends EventTarget {
       })
     }
     if (this.running && this.jobs.length > 0) {
-      return this.start()
+      this._start()
     }
-    return awaiter
   }
 
   stop () {
@@ -173,7 +177,6 @@ export default class Queue extends EventTarget {
     this.timers.forEach(timer => {
       clearTimeout(timer)
     })
-
     this.timers = []
   }
 
