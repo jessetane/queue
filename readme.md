@@ -191,6 +191,8 @@ After all jobs have been processed
 
 ## Releases
 The latest stable release is published to [npm](http://npmjs.org/queue). Abbreviated changelog below:
+* [7.0](https://github.com/jessetane/queue/archive/7.0.0.tar.gz)
+  * Modernized codebase, added new maintainer (@MaksimLavrenyuk)
 * [6.0](https://github.com/jessetane/queue/archive/6.0.1.tar.gz)
   * Add `start` event before job begins (@joelgriffith)
   * Add `timeout` property on a job to override the queue's timeout (@joelgriffith)
