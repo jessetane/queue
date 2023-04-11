@@ -218,4 +218,4 @@ The latest stable release is published to [npm](http://npmjs.org/queue). Abbrevi
   * Early prototype
 
 ## License
-[MIT](https://github.com/jessetane/queue/blob/master/LICENSE)
+[MIT](https://github.com/jessetane/queue/blob/master/license.md)
