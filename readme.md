@@ -180,13 +180,13 @@ Immediately before a job begins to execute.
 ### `q.dispatchEvent(new QueueEvent('success', { result: [...result], job }))`
 After a job executes its callback.
 
-### `q.dispatchEvent(new QueueEvent('error', { err, job }))`
+### `q.dispatchEvent(new QueueEvent('error', { error, job }))`
 After a job passes an error to its callback.
 
 ### `q.dispatchEvent(new QueueEvent('timeout', { next, job }))`
 After `q.timeout` milliseconds have elapsed and a job has not executed its callback.
 
-### `q.dispatchEvent(new QueueEvent('end', { err }))`
+### `q.dispatchEvent(new QueueEvent('end', { error }))`
 After all jobs have been processed
 
 ## Releases
