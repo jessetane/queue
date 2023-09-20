@@ -159,7 +159,7 @@ export default class Queue extends EventTarget {
      */
     start(callback: (error?: Error, results?: any[] | null) => void): void;
 
-    start(): Promise<{ error?: Error, results?: any[] | null }>;
+    start(): Promise<any[] | null>;
 
     start(): void;
 
